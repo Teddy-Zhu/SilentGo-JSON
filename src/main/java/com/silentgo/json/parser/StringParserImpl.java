@@ -1,4 +1,4 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
 
 import com.silentgo.json.model.JSONEntity;
 

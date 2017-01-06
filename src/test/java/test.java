@@ -1,5 +1,4 @@
-import com.silentgo.json.ByteParserImpl;
-import com.silentgo.json.StringParserImpl;
+import com.silentgo.json.parser.StringParserImpl;
 import com.silentgo.json.model.JSONEntity;
 
 /**

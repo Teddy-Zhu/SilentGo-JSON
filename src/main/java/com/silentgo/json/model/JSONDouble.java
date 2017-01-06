@@ -1,9 +1,7 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSON;
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReaderKit;
-import com.silentgo.json.JSONReport;
+import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.report.JSONReport;
 
 /**
  * Project : SilentGo
@@ -21,7 +19,7 @@ public class JSONDouble extends JSONEntity {
         super(null);
         int d = value.indexOf('.');
         if (d == 0 || d == value.length() - 1) {
-            throw JSONReport.error(new JSONReader(value.getBytes(), d, value.length()), "the number has error format");
+            new JSONReport().report(new JSONReader(value.getBytes(), d, value.length()), "the number has error format");
         }
         this.value = Double.valueOf(value);
     }

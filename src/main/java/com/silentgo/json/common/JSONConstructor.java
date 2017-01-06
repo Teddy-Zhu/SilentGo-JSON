@@ -1,6 +1,6 @@
 package com.silentgo.json.common;
 
-import com.silentgo.json.JSONReader;
+import com.silentgo.json.parser.JSONReader;
 import com.silentgo.json.model.*;
 
 import java.lang.reflect.Constructor;

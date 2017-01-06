@@ -1,4 +1,6 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
+
+import com.silentgo.json.model.JSONEntity;
 
 /**
  * Project : SilentGo
@@ -8,15 +10,10 @@ package com.silentgo.json;
  *         <p>
  *         Created by teddyzhu on 2017/1/4.
  */
-public interface Reader {
+public interface ByteParser {
 
-    public byte next();
+    public <T> T parse(byte[] bytes, Class<T> tClass);
 
-    public boolean hasNext();
+    public JSONEntity parse(byte[] bytes);
 
-    public byte peek();
-
-    public byte peek(int position);
-
-    public byte peekNext();
 }

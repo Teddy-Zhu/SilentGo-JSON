@@ -1,4 +1,4 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
 
 /**
  * Project : SilentGo
@@ -11,7 +11,6 @@ package com.silentgo.json;
 public class JSONReader implements Reader {
 
     public static final byte BYTE_NULL = 0;
-    public static final int initialSize = 32;
     private byte[] data;
     private int pos;
     private int end;

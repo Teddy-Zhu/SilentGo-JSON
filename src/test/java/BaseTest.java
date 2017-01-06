@@ -1,11 +1,8 @@
 import com.silentgo.json.JSON;
-import com.silentgo.json.StringParser;
-import com.silentgo.json.StringParserImpl;
 import com.silentgo.json.model.JSONEntity;
+import com.silentgo.json.parser.StringParserImpl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Project : jsonstream
@@ -30,10 +27,11 @@ public class BaseTest {
                 "}";
         //JsonReader jsonReader = jsonBuilder.createReader(jsonStr);
         //User user = jsonReader.parse(User.class);
-//
-//        String json2 = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
-////        JSONEntity entity = new StringParserImpl().parse(jsonStr);
-////        System.out.println(entity);
+
+        JSON.config.setLazy(true);
+        String json2 = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
+        JSONEntity entity = new StringParserImpl().parse(jsonStr);
+        System.out.println(entity);
 //
 //        JSON.config.setLazy(true);
 //        StringParser parser = new StringParserImpl();

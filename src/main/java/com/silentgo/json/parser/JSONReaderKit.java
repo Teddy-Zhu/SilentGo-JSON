@@ -1,5 +1,6 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
 
+import com.silentgo.json.report.JSONReport;
 import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.*;
@@ -35,23 +36,23 @@ public class JSONReaderKit {
                     continue;
                 }
                 default: {
-                    throw JSONReport.error(reader, "parse object error , can not found key start");
+                    new JSONReport().report(reader, "parse object error , can not found key start");
                 }
                 case Key.STRING_SPLIT: {
                     isFirst = false;
-                    int pos = reader.getPos();
+                    int pos = reader.getPos() + 1;
                     JSONSkipKit.skipString(reader);
                     String name = new String(reader.getData(), pos, reader.getPos() - pos);
 
                     byte key = nextWord(reader);
                     if (Key.VALUE_COL != key)
-                        throw JSONReport.error(reader, "can not found value");
+                        new JSONReport().report(reader, "can not found value");
                     JSONEntity jsonEntity = JSONReaderKit.readJSONValue(reader, jsonConfig);
                     jsonObject.put(name, jsonEntity);
                     continue;
                 }
                 case Key.OBJECT_SPLIT: {
-                    if (isFirst) throw JSONReport.error(reader, "unexcepted , begin the object");
+                    if (isFirst) new JSONReport().report(reader, "unexcepted , begin the object");
                     continue;
                 }
                 case Key.OBJECT_END: {
@@ -59,7 +60,8 @@ public class JSONReaderKit {
                 }
             }
         }
-        throw JSONReport.error(reader, "can not found object closure }");
+        new JSONReport().report(reader, "can not found object closure }");
+        return null;
     }
 
     public static JSONEntity readJSONArray(JSONReader reader, JSONConfig jsonConfig, JSONArray outJsonArray) {
@@ -113,6 +115,7 @@ public class JSONReaderKit {
                 case Key.NUMBER_INTERVAL: {
                     //number
                     jsonArray.push(JSONReaderKit.readJSONNumber(reader, jsonConfig));
+                    isFirst = false;
                     continue;
                 }
                 case Key.STRING_SPLIT: {
@@ -124,15 +127,19 @@ public class JSONReaderKit {
                     return jsonArray;
                 }
                 case Key.BOOL_FALSE: {
-                    return JSONReaderKit.readJSONBool(reader, jsonConfig, "false");
+                    jsonArray.push(JSONReaderKit.readJSONBool(reader, jsonConfig, "false"));
+                    isFirst = false;
+                    continue;
                 }
                 case Key.BOOL_TRUE: {
-                    return JSONReaderKit.readJSONBool(reader, jsonConfig, "true");
+                    jsonArray.push(JSONReaderKit.readJSONBool(reader, jsonConfig, "true"));
+                    isFirst = false;
+                    continue;
                 }
             }
         }
-
-        throw JSONReport.error(reader, "can not found array closure ]");
+        new JSONReport().report(reader, "can not found array closure ]");
+        return null;
     }
 
     public static JSONEntity readJSONValue(JSONReader reader, JSONConfig jsonConfig) {
@@ -183,10 +190,11 @@ public class JSONReaderKit {
                     return JSONReaderKit.readJSONBool(reader, jsonConfig, "true");
                 }
                 default:
-                    throw JSONReport.error(reader, "can not handle this value");
+                    new JSONReport().report(reader, "can not handle this value");
             }
         }
-        throw JSONReport.error(reader, "unknown format string");
+        new JSONReport().report(reader, "unknown format string");
+        return null;
     }
 
     public static JSONEntity readJSONBool(JSONReader reader, JSONConfig jsonConfig, String val) {
@@ -196,9 +204,16 @@ public class JSONReaderKit {
             JSONReader readObject = new JSONReader(reader.getData(), pos, reader.getPos());
             return new JSONLazy(readObject, JSONBool.class);
         }
-        int i = reader.getPos();
-        JSONSkipKit.skipBlank(reader);
-        String value = new String(reader.getData(), i, reader.getPos() - i);
+
+        String value;
+        if (jsonConfig.isHasSkipped()) {
+            value = getString(reader);
+        } else {
+            int i = reader.getPos();
+            JSONSkipKit.skipStringArg(reader, val, true);
+            value = new String(reader.getData(), i, reader.getPos() - i);
+        }
+
 
         return new JSONBool(value);
     }
@@ -210,9 +225,14 @@ public class JSONReaderKit {
             JSONReader readObject = new JSONReader(reader.getData(), pos, reader.getPos());
             return new JSONLazy(readObject, JSONNull.class);
         }
-        int i = reader.getPos();
-        JSONSkipKit.skipBlank(reader);
-        String value = new String(reader.getData(), i, reader.getPos() - i);
+        String value;
+        if (jsonConfig.isHasSkipped()) {
+            value = getString(reader);
+        } else {
+            int i = reader.getPos();
+            JSONSkipKit.skipBlank(reader);
+            value = new String(reader.getData(), i, reader.getPos() - i);
+        }
 
         return new JSONNull(value);
     }
@@ -224,9 +244,16 @@ public class JSONReaderKit {
             JSONReader readObject = new JSONReader(reader.getData(), pos, reader.getPos());
             return new JSONLazy(readObject, isDecimal ? JSONDouble.class : JSONLong.class);
         }
-        int i = reader.getPos();
-        boolean isDecimal = JSONSkipKit.skipNumber(reader);
-        String value = new String(reader.getData(), i, reader.getPos() - i);
+        String value;
+        boolean isDecimal;
+        if (jsonConfig.isHasSkipped()) {
+            value = getString(reader);
+            isDecimal = value.indexOf(Key.NUMBER_INTERVAL) != -1;
+        } else {
+            int i = reader.getPos();
+            isDecimal = JSONSkipKit.skipNumber(reader);
+            value = new String(reader.getData(), i, reader.getPos() - i);
+        }
 
         if (isDecimal) {
             return new JSONDouble(value);
@@ -236,14 +263,19 @@ public class JSONReaderKit {
 
     public static JSONEntity readJSONString(JSONReader reader, JSONConfig config) {
         if (config.isLazy()) {
-            int pos = reader.getPos();
+            int pos = reader.getPos() + 1;
             JSONSkipKit.skipString(reader);
             JSONReader readObject = new JSONReader(reader.getData(), pos, reader.getPos());
             return new JSONLazy(readObject, JSONString.class);
         }
-        int i = reader.getPos() + 1;
-        JSONSkipKit.skipString(reader);
-        String value = new String(reader.getData(), i, reader.getPos() - i);
+        String value;
+        if (config.isHasSkipped()) {
+            value = getString(reader);
+        } else {
+            int i = reader.getPos() + 1;
+            JSONSkipKit.skipString(reader);
+            value = new String(reader.getData(), i, reader.getPos() - i);
+        }
 
         return new JSONString(value);
     }
@@ -262,5 +294,9 @@ public class JSONReaderKit {
             }
         }
         return JSONReader.BYTE_NULL;
+    }
+
+    private static String getString(JSONReader reader) {
+        return new String(reader.getData(), reader.getPos(), reader.getEnd() - reader.getPos());
     }
 }

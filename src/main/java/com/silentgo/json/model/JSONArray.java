@@ -1,11 +1,11 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSON;
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReaderKit;
+import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.configuration.JSONConfig;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -29,7 +29,7 @@ public class JSONArray extends JSONEntity {
         super(null);
         list = new ArrayList<>();
 
-        JSONReaderKit.readJSONArray(reader, new JSONConfig(), this);
+        JSONReaderKit.readJSONArray(reader, new JSONConfig(false), this);
     }
 
     @Override
@@ -47,8 +47,6 @@ public class JSONArray extends JSONEntity {
 
     @Override
     public String toString() {
-        return "JSONArray{" +
-                "list=" + list +
-                '}';
+        return list.toString();
     }
 }

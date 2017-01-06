@@ -1,10 +1,7 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
 
-import com.silentgo.json.model.JSONArray;
+import com.silentgo.json.JSON;
 import com.silentgo.json.model.JSONEntity;
-import com.silentgo.json.model.JSONObject;
-
-import java.util.Stack;
 
 /**
  * Project : SilentGo

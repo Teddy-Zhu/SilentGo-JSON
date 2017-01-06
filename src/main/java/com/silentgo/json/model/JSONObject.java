@@ -1,8 +1,7 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSON;
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReaderKit;
+import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.configuration.JSONConfig;
 
 import java.util.HashMap;
@@ -49,8 +48,6 @@ public class JSONObject extends JSONEntity {
 
     @Override
     public String toString() {
-        return "JSONObject{" +
-                "map=" + map +
-                '}';
+        return map.toString();
     }
 }

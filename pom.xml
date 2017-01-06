@@ -24,8 +24,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>4.12</junit.version>
         <slf4j-api.version>1.7.16</slf4j-api.version>
+        <utils.version>0.1.5</utils.version>
     </properties>
-
 
     <dependencyManagement>
         <dependencies>
@@ -44,6 +44,19 @@
         </dependencies>
     </dependencyManagement>
 
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.silentgo</groupId>
+            <artifactId>utils</artifactId>
+            <version>${utils.version}</version>
+        </dependency>
+    </dependencies>
     <build>
         <finalName>silentgojson</finalName>
         <resources>

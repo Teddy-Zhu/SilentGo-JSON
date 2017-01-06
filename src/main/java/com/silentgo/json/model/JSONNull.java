@@ -1,9 +1,7 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReport;
-
-import static com.sun.corba.se.spi.activation.IIOP_CLEAR_TEXT.value;
+import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.report.JSONReport;
 
 /**
  * Project : SilentGo
@@ -22,7 +20,7 @@ public class JSONNull extends JSONEntity {
     public JSONNull(String value) {
         super(null);
         if (!"null".equals(value.trim().toLowerCase())) {
-            throw JSONReport.error(new JSONReader(value.getBytes(), 0, value.length()), "the value can not parsed");
+            new JSONReport().report(new JSONReader(value.getBytes(), 0, value.length()), "the value can not parsed");
         }
     }
 

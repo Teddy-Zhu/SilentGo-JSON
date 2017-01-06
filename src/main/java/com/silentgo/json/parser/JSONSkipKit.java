@@ -1,5 +1,6 @@
-package com.silentgo.json;
+package com.silentgo.json.parser;
 
+import com.silentgo.json.report.JSONReport;
 import com.silentgo.json.common.Key;
 
 import java.util.Stack;
@@ -34,7 +35,7 @@ public class JSONSkipKit {
                 }
             }
         }
-        throw JSONReport.error(reader, "can not found object closure }");
+        new JSONReport().report(reader, "can not found object closure }");
     }
 
     public static void skipArray(JSONReader reader) {
@@ -57,7 +58,7 @@ public class JSONSkipKit {
                 }
             }
         }
-        throw JSONReport.error(reader, "can not found array closure ]");
+        new JSONReport().report(reader, "can not found array closure ]");
     }
 
     public static void skipString(JSONReader reader) {
@@ -74,7 +75,7 @@ public class JSONSkipKit {
             }
         }
 
-        throw JSONReport.error(reader, "string end can not found");
+        new JSONReport().report(reader, "string end can not found");
     }
 
     public static boolean skipNumber(JSONReader reader) {
@@ -108,7 +109,7 @@ public class JSONSkipKit {
                     return isDecimal;
                 }
                 default: {
-                    throw JSONReport.error(reader, "unknown num end");
+                    new JSONReport().report(reader, "unknown num end");
                 }
             }
         }
@@ -121,11 +122,11 @@ public class JSONSkipKit {
             byte b = reader.next();
             if (ignoreCaseSensitive) {
                 if (Character.toLowerCase(b) != str.charAt(i)) {
-                    throw JSONReport.error(reader, "unknown string");
+                    new JSONReport().report(reader, "unknown string");
                 }
             } else {
                 if (b != str.charAt(i)) {
-                    throw JSONReport.error(reader, "unknown string");
+                    new JSONReport().report(reader, "unknown string");
                 }
             }
 

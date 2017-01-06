@@ -1,8 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSON;
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReaderKit;
+import com.silentgo.json.parser.JSONReader;
 
 /**
  * Project : SilentGo

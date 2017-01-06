@@ -1,8 +1,9 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.JSONReader;
-import com.silentgo.json.JSONReaderKit;
+import com.silentgo.json.parser.JSONReader;
 import com.silentgo.json.common.JSONConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -15,6 +16,8 @@ import java.lang.reflect.InvocationTargetException;
  *         Created by teddyzhu on 2017/1/5.
  */
 public class JSONLazy extends JSONEntity {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(JSONLazy.class);
 
     private JSONEntity value;
     private Class<? extends JSONEntity> type;
@@ -31,10 +34,14 @@ public class JSONLazy extends JSONEntity {
             try {
                 this.value = (JSONEntity) JSONConstructor.getConstructorMap().get(type).newInstance(reader);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                e.printStackTrace();
+                LOGGER.error("call json excepted value constructor error", e);
             }
         }
         return this.value;
+    }
+
+    public String getString() {
+        return new String(reader.getData(), reader.getPos(), reader.getEnd() - reader.getPos());
     }
 
 }

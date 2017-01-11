@@ -15,8 +15,8 @@ public class JSONReport implements Reporter {
 
     @Override
     public void report(JSONReader reader, String msg) {
-        int pos = reader.getPos() - 10;
-        String errorData = new String(reader.getData(), pos < 0 ? 0 : pos, 10);
-        throw new ParseException("Json parse error : " + msg + " around \n" + errorData + " \ncol :" + reader.getPos());
+        int pos = reader.pos - 10;
+        String errorData = new String(reader.data, pos < 0 ? 0 : pos, 10);
+        throw new ParseException("Json parse error : " + msg + " around \n" + errorData + " \ncol :" + reader.pos);
     }
 }

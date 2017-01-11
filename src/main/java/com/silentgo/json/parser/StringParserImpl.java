@@ -1,5 +1,6 @@
 package com.silentgo.json.parser;
 
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 
 /**
@@ -12,13 +13,13 @@ import com.silentgo.json.model.JSONEntity;
  */
 public class StringParserImpl extends ByteParserImpl implements StringParser {
     @Override
-    public <T> T parse(String input, Class<T> tClass) {
-        return parse(input.getBytes(), tClass);
+    public <T> T parse(String input, Class<T> tClass, JSONConfig jsonConfig) {
+        return parse(input.getBytes(), tClass, jsonConfig);
     }
 
     @Override
-    public JSONEntity parse(String input) {
-        return parse(input.getBytes());
+    public JSONEntity parse(String input, JSONConfig jsonConfig) {
+        return parse(input.getBytes(), jsonConfig);
     }
 
 

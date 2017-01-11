@@ -14,5 +14,6 @@ public class JSON {
 
     public static final JSONConfig config = new JSONConfig();
 
+    public static final JSONConfig oneDepthConfig = new JSONConfig(1);
 
 }

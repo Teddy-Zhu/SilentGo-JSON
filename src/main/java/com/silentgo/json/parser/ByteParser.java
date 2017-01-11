@@ -1,5 +1,6 @@
 package com.silentgo.json.parser;
 
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 
 /**
@@ -12,8 +13,8 @@ import com.silentgo.json.model.JSONEntity;
  */
 public interface ByteParser {
 
-    public <T> T parse(byte[] bytes, Class<T> tClass);
+    public <T> T parse(byte[] bytes, Class<T> tClass, JSONConfig jsonConfig);
 
-    public JSONEntity parse(byte[] bytes);
+    public JSONEntity parse(byte[] bytes, JSONConfig jsonConfig);
 
 }

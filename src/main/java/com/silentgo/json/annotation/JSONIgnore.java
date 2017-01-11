@@ -15,4 +15,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.FIELD})
 public @interface JSONIgnore {
+
+    boolean serialize() default true;
+
+    boolean deserialize() default true;
+
 }

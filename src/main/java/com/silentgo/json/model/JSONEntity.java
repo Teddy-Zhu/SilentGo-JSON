@@ -1,5 +1,6 @@
 package com.silentgo.json.model;
 
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.parser.JSONReader;
 
 /**
@@ -12,9 +13,22 @@ import com.silentgo.json.parser.JSONReader;
  */
 public abstract class JSONEntity {
 
+    private String string;
+
     public JSONEntity(JSONReader value) {
+    }
+
+    public String getString() {
+        return string;
     }
 
     public abstract Object get();
 
+    public Object get(JSONConfig jsonConfig) {
+        return get();
+    }
+
+    public void setString(String string) {
+        this.string = string;
+    }
 }

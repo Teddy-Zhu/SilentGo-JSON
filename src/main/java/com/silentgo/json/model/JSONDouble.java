@@ -11,7 +11,7 @@ import com.silentgo.json.report.JSONReport;
  *         <p>
  *         Created by teddyzhu on 2017/1/4.
  */
-public class JSONDouble extends JSONEntity {
+public class JSONDouble extends JSONNumber {
 
     private Double value;
 
@@ -21,12 +21,14 @@ public class JSONDouble extends JSONEntity {
         if (d == 0 || d == value.length() - 1) {
             new JSONReport().report(new JSONReader(value.getBytes(), d, value.length()), "the number has error format");
         }
+        setString(value);
         this.value = Double.valueOf(value);
     }
 
     public JSONDouble(JSONReader value) {
         super(value);
-        String val = new String(value.getData(), value.getPos(), value.getEnd());
+        String val = new String(value.data, value.pos, value.end);
+        setString(val);
         this.value = Double.valueOf(val);
     }
 

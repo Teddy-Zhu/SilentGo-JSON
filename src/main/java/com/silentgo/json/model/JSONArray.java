@@ -5,7 +5,6 @@ import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.configuration.JSONConfig;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -28,16 +27,15 @@ public class JSONArray extends JSONEntity {
     public JSONArray(JSONReader reader) {
         super(null);
         list = new ArrayList<>();
-
-        JSONReaderKit.readJSONArray(reader, new JSONConfig(false), this);
+        JSONReaderKit.getReader(JSONArray.class).readValue(reader, new JSONConfig(false), this, 0);
     }
 
     @Override
-    public Object get() {
+    public List<JSONEntity> get() {
         return list;
     }
 
-    public Object get(int i) {
+    public JSONEntity get(int i) {
         return list.get(i);
     }
 
@@ -49,4 +47,5 @@ public class JSONArray extends JSONEntity {
     public String toString() {
         return list.toString();
     }
+
 }

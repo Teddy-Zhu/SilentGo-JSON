@@ -1,11 +1,12 @@
 package com.silentgo.json.model;
 
+import com.silentgo.json.JSON;
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.parser.JSONReader;
-import com.silentgo.json.common.JSONConstructor;
+import com.silentgo.json.parser.JSONReaderKit;
+import com.silentgo.utils.StringKit;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.lang.reflect.InvocationTargetException;
 
 /**
  * Project : SilentGo
@@ -29,19 +30,28 @@ public class JSONLazy extends JSONEntity {
         this.type = type;
     }
 
+    @Override
     public JSONEntity get() {
-        if (this.value == null) {
-            try {
-                this.value = (JSONEntity) JSONConstructor.getConstructorMap().get(type).newInstance(reader);
-            } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("call json excepted value constructor error", e);
-            }
+        return get(JSON.oneDepthConfig);
+    }
+
+    @Override
+    public JSONEntity get(JSONConfig jsonConfig) {
+        if (value == null) {
+            value = JSONReaderKit.getReader(type).readValue(reader, jsonConfig, null, 0);
         }
-        return this.value;
+        return value;
     }
 
+    @Override
     public String getString() {
-        return new String(reader.getData(), reader.getPos(), reader.getEnd() - reader.getPos());
+        if (super.getString() == null) {
+            setString(new String(reader.data, reader.pos, reader.end - reader.pos));
+        }
+        return super.getString();
     }
 
+    public Class<? extends JSONEntity> getType() {
+        return type;
+    }
 }

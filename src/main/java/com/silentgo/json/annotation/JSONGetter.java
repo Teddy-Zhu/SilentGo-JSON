@@ -15,5 +15,9 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Target({ElementType.METHOD})
 public @interface JSONGetter {
+    /**
+     * field name
+     * @return
+     */
     String value();
 }

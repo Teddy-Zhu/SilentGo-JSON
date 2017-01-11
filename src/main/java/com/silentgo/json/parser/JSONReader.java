@@ -11,9 +11,9 @@ package com.silentgo.json.parser;
 public class JSONReader implements Reader {
 
     public static final byte BYTE_NULL = 0;
-    private byte[] data;
-    private int pos;
-    private int end;
+    public byte[] data;
+    public int pos;
+    public int end;
 
     public JSONReader(byte[] data, int pos, int end) {
         this.data = data;
@@ -28,7 +28,7 @@ public class JSONReader implements Reader {
 
     @Override
     public boolean hasNext() {
-        return pos + 1 <= end;
+        return pos < end;
     }
 
     @Override
@@ -47,34 +47,6 @@ public class JSONReader implements Reader {
     @Override
     public byte peekNext() {
         return peek(pos + 1);
-    }
-
-    public static byte getByteNull() {
-        return BYTE_NULL;
-    }
-
-    public byte[] getData() {
-        return data;
-    }
-
-    public void setData(byte[] data) {
-        this.data = data;
-    }
-
-    public int getPos() {
-        return pos;
-    }
-
-    public void setPos(int pos) {
-        this.pos = pos;
-    }
-
-    public int getEnd() {
-        return end;
-    }
-
-    public void setEnd(int end) {
-        this.end = end;
     }
 
 }

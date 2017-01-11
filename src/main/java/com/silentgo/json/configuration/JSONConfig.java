@@ -8,11 +8,33 @@ package com.silentgo.json.configuration;
  *         <p>
  *         Created by teddyzhu on 2017/1/5.
  */
-public class JSONConfig {
+public class JSONConfig implements Cloneable {
 
     private boolean lazy = false;
 
     private boolean hasSkipped = false;
+
+    private int maxDepth = 20;
+
+    public int getMaxDepth() {
+        return maxDepth;
+    }
+
+    public void setMaxDepth(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
+
+    public JSONConfig() {
+    }
+
+    public JSONConfig(int maxDepth) {
+        this.maxDepth = maxDepth;
+    }
+
+    public JSONConfig(boolean lazy, int maxDepth) {
+        this.lazy = lazy;
+        this.maxDepth = maxDepth;
+    }
 
     public JSONConfig(boolean hasSkipped) {
         this.hasSkipped = hasSkipped;
@@ -32,5 +54,10 @@ public class JSONConfig {
 
     public void setLazy(boolean lazy) {
         this.lazy = lazy;
+    }
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
     }
 }

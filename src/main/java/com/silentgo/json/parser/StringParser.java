@@ -1,5 +1,6 @@
 package com.silentgo.json.parser;
 
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 
 /**
@@ -11,8 +12,8 @@ import com.silentgo.json.model.JSONEntity;
  *         Created by teddyzhu on 2017/1/4.
  */
 public interface StringParser extends ByteParser {
-    public <T> T parse(String input, Class<T> tClass);
+    public <T> T parse(String input, Class<T> tClass, JSONConfig jsonConfig);
 
-    public JSONEntity parse(String input);
+    public JSONEntity parse(String input, JSONConfig jsonConfig);
 
 }

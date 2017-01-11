@@ -21,7 +21,12 @@ public class JSONString extends JSONEntity {
 
     public JSONString(JSONReader value) {
         super(value);
-        this.value = new String(value.getData(), value.getPos(), value.getEnd() - value.getPos());
+        this.value = new String(value.data, value.pos, value.end - value.pos);
+    }
+
+    @Override
+    public String getString() {
+        return value;
     }
 
     public String get() {

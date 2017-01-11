@@ -1,5 +1,6 @@
 package com.silentgo.json.model;
 
+import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.parser.JSONReader;
 
 /**
@@ -15,18 +16,25 @@ public class JSONBool extends JSONEntity {
 
     public JSONBool(String value) {
         super(null);
+        setString(value);
         this.value = Boolean.valueOf(value);
     }
 
     public JSONBool(JSONReader reader) {
         super(null);
-        String value = new String(reader.getData(), reader.getPos(), reader.getEnd());
+        String value = new String(reader.data, reader.pos, reader.end);
+        setString(value);
         this.value = Boolean.valueOf(value);
     }
 
     @Override
     public Object get() {
         return value;
+    }
+
+    @Override
+    public Object get(JSONConfig jsonConfig) {
+        return get();
     }
 
     @Override

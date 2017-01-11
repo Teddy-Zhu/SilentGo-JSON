@@ -28,16 +28,16 @@ public class JSONObject extends JSONEntity {
         super(null);
         this.map = new HashMap<>();
 
-        JSONReaderKit.readJSONObject(value, new JSONConfig(), this);
+        JSONReaderKit.getReader(JSONObject.class).readValue(value, new JSONConfig(false), this, 0);
     }
 
     @Override
-    public Object get() {
+    public Map<String, JSONEntity> get() {
         return map;
     }
 
 
-    public Object get(String key) {
+    public JSONEntity get(String key) {
         return map.get(key);
     }
 
@@ -50,4 +50,5 @@ public class JSONObject extends JSONEntity {
     public String toString() {
         return map.toString();
     }
+
 }

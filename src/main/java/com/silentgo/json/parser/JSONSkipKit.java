@@ -23,6 +23,14 @@ public class JSONSkipKit {
             switch (b) {
                 default:
                     continue;
+                case Key.STRING_SPLIT: {
+                    skipString(reader);
+                    continue;
+                }
+                case Key.ARRAY_START: {
+                    skipArray(reader);
+                    continue;
+                }
                 case Key.OBJECT_START: {
                     stack.push(b);
                     continue;
@@ -68,7 +76,7 @@ public class JSONSkipKit {
                 default:
                     continue;
                 case Key.STRING_SPLIT: {
-                    if (reader.peek(reader.getPos() - 1) != '\\') {
+                    if (reader.peek(reader.pos - 1) != '\\') {
                         return;
                     }
                 }

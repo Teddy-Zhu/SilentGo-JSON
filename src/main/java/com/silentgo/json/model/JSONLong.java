@@ -10,17 +10,19 @@ import com.silentgo.json.parser.JSONReader;
  *         <p>
  *         Created by teddyzhu on 2017/1/4.
  */
-public class JSONLong extends JSONEntity {
+public class JSONLong extends JSONNumber {
     private Long value;
 
     public JSONLong(String value) {
         super(null);
+        setString(value);
         this.value = Long.valueOf(value);
     }
 
     public JSONLong(JSONReader value) {
         super(value);
-        String val = new String(value.getData(), value.getPos(), value.getEnd());
+        String val = new String(value.data, value.pos, value.end);
+        setString(val);
         this.value = Long.valueOf(val);
     }
 

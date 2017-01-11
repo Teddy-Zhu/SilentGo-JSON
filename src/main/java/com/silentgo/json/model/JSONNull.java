@@ -13,6 +13,8 @@ import com.silentgo.json.report.JSONReport;
  */
 public class JSONNull extends JSONEntity {
 
+    private static final String NullString = "null";
+
     public JSONNull() {
         super(null);
     }
@@ -29,12 +31,17 @@ public class JSONNull extends JSONEntity {
     }
 
     @Override
+    public String getString() {
+        return NullString;
+    }
+
+    @Override
     public Object get() {
         return null;
     }
 
     @Override
     public String toString() {
-        return "null";
+        return NullString;
     }
 }

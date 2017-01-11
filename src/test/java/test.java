@@ -12,7 +12,7 @@ import com.silentgo.json.model.JSONEntity;
 public class test {
 
     public static void main(String[] args) {
-        JSONEntity a = new StringParserImpl().parse("{\"sx\\\"ss\":\"sss\"}");
-        System.out.println(a);
+    //    JSONEntity a = new StringParserImpl().parse("{\"sx\\\"ss\":\"sss\"}");
+       // System.out.println(a);
     }
 }

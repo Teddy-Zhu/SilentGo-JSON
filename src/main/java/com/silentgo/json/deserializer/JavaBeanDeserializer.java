@@ -88,7 +88,7 @@ public class JavaBeanDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, Object key) {
+    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
         JSONObject jsonObject = ReaderKit.getTarget(entity, JSONObject.class, "json can not be transformed to object");
         Object target = null;
         if (sgConstructor.isDefault()) {
@@ -105,7 +105,9 @@ public class JavaBeanDeserializer implements Deserializer {
 
         Object finalTarget = target;
         fieldDeserializer.forEach((s, deserializer) -> {
-            Object object = deserializer.getObject(jsonObject.get(s), s);
+            JSONEntity entity1 = jsonObject.get(s);
+            if (entity1 == null) return;
+            Object object = deserializer.getObject(jsonObject.get(s), sgClass.getField(s), s);
             if (finalTarget == null) {
                 fieldMap.put(s, object);
             } else {

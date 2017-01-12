@@ -1,6 +1,7 @@
 package com.silentgo.json.deserializer;
 
 import com.silentgo.json.model.JSONEntity;
+import com.silentgo.utils.reflect.SGField;
 
 /**
  * Project : json
@@ -12,5 +13,5 @@ import com.silentgo.json.model.JSONEntity;
  */
 public interface Deserializer {
 
-    public Object getObject(JSONEntity entity, Object key);
+    public Object getObject(JSONEntity entity, SGField sgField, Object key);
 }

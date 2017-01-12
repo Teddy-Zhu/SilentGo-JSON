@@ -48,7 +48,7 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
         }
         Deserializer deserializer = DeserializerKit.createDeserializer(tClass);
 
-        return (T) deserializer.getObject(current, name);
+        return (T) deserializer.getObject(current, null, name);
     }
 
     @Override

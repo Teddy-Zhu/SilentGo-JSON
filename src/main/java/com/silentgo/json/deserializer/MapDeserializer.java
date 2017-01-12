@@ -3,6 +3,7 @@ package com.silentgo.json.deserializer;
 import com.silentgo.json.mapping.valreader.ReaderKit;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONObject;
+import com.silentgo.utils.reflect.SGField;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -35,15 +36,13 @@ public class MapDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, Object key) {
+    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
         JSONObject jsonObject = ReaderKit.getTarget(entity, JSONObject.class, "json can not be transformed to json object");
 
         Map<String, Object> map = new HashMap<>();
         Map<String, JSONEntity> objectMap = jsonObject.get();
 
-        objectMap.forEach((k, v) -> {
-            map.put(k, child.getObject(v, k));
-        });
+        objectMap.forEach((k, v) -> map.put(k, child.getObject(v, null, k)));
         return map;
     }
 }

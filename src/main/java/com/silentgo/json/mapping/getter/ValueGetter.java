@@ -1,6 +1,7 @@
 package com.silentgo.json.mapping.getter;
 
 import com.silentgo.json.model.JSONEntity;
+import com.silentgo.utils.reflect.SGField;
 
 /**
  * Project : json
@@ -12,5 +13,5 @@ import com.silentgo.json.model.JSONEntity;
  */
 public interface ValueGetter<T> {
 
-    public T getObject(JSONEntity jsonEntity);
+    public T getObject(JSONEntity jsonEntity, SGField sgField);
 }

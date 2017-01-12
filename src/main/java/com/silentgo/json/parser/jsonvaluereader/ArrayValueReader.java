@@ -1,5 +1,6 @@
 package com.silentgo.json.parser.jsonvaluereader;
 
+import com.silentgo.json.JSON;
 import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.configuration.JSONConfigExtra;
@@ -45,7 +46,7 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
                 }
                 case Key.OBJECT_SPLIT: {
                     if (isFirst) {
-                        jsonArray.push(new JSONNull());
+                        jsonArray.push(JSON.Null);
                     }
                     isFirst = false;
                     continue;

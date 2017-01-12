@@ -27,7 +27,6 @@ public class BaseTest {
     public static void main(String[] args) throws IOException {
         //JsonBuilder jsonBuilder = new JsonBuilder().useJsonObjectFactory(TreeMap::new).useJsonArrayFactory(LinkedList::new);
         String jsonStr = "{\n" +
-                "\"time\" : true," +
                 "    \"id\": 123,\n" +
                 "    \"name\": \"Mic[hael\",\n" +
                 "    \"tags\": [\"Mus{ic\", \"Football\", \"Running\"],\n" +
@@ -43,13 +42,13 @@ public class BaseTest {
 
         int i = 100000;
 
-        //DeserializerKit.createDeserializer(User.class);
+        DeserializerKit.createDeserializer(User.class);
         List<User> users = new ArrayList<>();
         StringParser stringParser = new StringParserImpl();
         //User user = stringParser.parse(jsonStr, User.class, JSON.config);
 //        ParserConfig config = new ParserConfig();
 //        config.setAsmEnable(false);
-     //   users = com.alibaba.fastjson.JSON.parseObject(jsonStr, users.getClass());
+        //users = com.alibaba.fastjson.JSON.parseObject(jsonStr, users.getClass());
 //        ReflectKit.getSGClass(User.class);
 //        ReflectKit.getSGClass(User.class);
 //
@@ -59,7 +58,7 @@ public class BaseTest {
             users.add(stringParser.parse(jsonStr, User.class, JSON.config));
         }
 //        for (int i1 = 0; i1 < i; i1++) {
-//            users.add(com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class, config));
+//            users.add(com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class));
 //        }
 
         //System.out.println(entity);

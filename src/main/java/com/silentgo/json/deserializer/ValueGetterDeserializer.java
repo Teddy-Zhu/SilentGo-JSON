@@ -2,6 +2,7 @@ package com.silentgo.json.deserializer;
 
 import com.silentgo.json.mapping.getter.ValueGetter;
 import com.silentgo.json.model.JSONEntity;
+import com.silentgo.utils.reflect.SGField;
 
 /**
  * Project : json
@@ -27,7 +28,7 @@ public class ValueGetterDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, Object key) {
-        return valueGetter.getObject(entity);
+    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
+        return valueGetter.getObject(entity, sgField);
     }
 }

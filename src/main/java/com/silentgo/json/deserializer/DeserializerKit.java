@@ -39,6 +39,10 @@ public class DeserializerKit {
 
     private static final Deserializer defaultMapDeserializer = new MapDeserializer(DeserializerKit.defaultDeserializer);
 
+    static {
+        ValueGetKit.getValueGetterMap().forEach(((aClass, valueGetter) -> typeDeserializer.put(aClass, new ValueGetterDeserializer(valueGetter))));
+    }
+
     public static Deserializer createDeserializer(Class<?> tClass) {
         return createDeserializer(tClass, null);
     }
@@ -74,7 +78,7 @@ public class DeserializerKit {
                 if (tClass.getClassLoader() == null)
                     throw new DeserializerException("do not support the type " + tClass.getName() + " ,please implement ValueGetter");
             } else {
-                Deserializer deserializer = new ValueGetterDeserializer(valueGetter);
+                Deserializer deserializer = sgField == null ? typeDeserializer.get(tClass) : new ValueGetterDeserializer(valueGetter);
                 typeDeserializer.put(tClass, deserializer);
                 return deserializer;
             }

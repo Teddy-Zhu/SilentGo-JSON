@@ -1,3 +1,5 @@
+import com.silentgo.json.annotation.JSONField;
+
 import java.util.Date;
 import java.util.List;
 
@@ -10,17 +12,18 @@ import java.util.List;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class User {
-    boolean time;
+    @JSONField("yyyy-MM-dd HH:mm:ss")
+    Date time;
     int id;
     String name;
     List<String> tags; // <-- ["Music", "Football", "Running"]
     Address address; // <-- { "street": "No.1 Road", "zipcode": "12345" }
 
-    public boolean getTime() {
+    public Date getTime() {
         return time;
     }
 
-    public void setTime(boolean time) {
+    public void setTime(Date time) {
         this.time = time;
     }
 

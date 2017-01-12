@@ -36,8 +36,8 @@ public class Key {
     public static final byte NULL = 'n';
     public static final byte OBJECT_SPLIT = ',';
 
-    public static final byte BOOL_TRUE = 't';
+    public static final char BOOL_TRUE = 't';
 
-    public static final byte BOOL_FALSE = 'f';
+    public static final char BOOL_FALSE = 'f';
 
 }

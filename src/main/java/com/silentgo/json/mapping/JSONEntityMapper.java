@@ -1,29 +1,16 @@
 package com.silentgo.json.mapping;
 
 import com.silentgo.json.JSON;
-import com.silentgo.json.annotation.JSONConstructor;
-import com.silentgo.json.annotation.JSONField;
-import com.silentgo.json.configuration.JSONConfig;
+import com.silentgo.json.deserializer.Deserializer;
+import com.silentgo.json.deserializer.DeserializerKit;
 import com.silentgo.json.exception.DeserializerException;
 import com.silentgo.json.mapping.inter.JSONMapper;
-import com.silentgo.json.mapping.valgetter.GetterKit;
-import com.silentgo.json.mapping.valgetter.ValueGetter;
-import com.silentgo.json.mapping.valreader.ReaderKit;
-import com.silentgo.json.mapping.valreader.ValueReader;
-import com.silentgo.json.model.JSONArray;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONObject;
-import com.silentgo.utils.ClassKit;
-import com.silentgo.utils.ReflectKit;
 import com.silentgo.utils.StringKit;
-import com.silentgo.utils.common.Const;
-import com.silentgo.utils.reflect.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.*;
+import java.util.Collection;
 
 /**
  * Project : json
@@ -59,8 +46,9 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
                 throw new DeserializerException("json can not be case to object");
             }
         }
-        SGClass sgClass = ReflectKit.getSGClass(tClass);
-        return (T) ReaderKit.readValue(tClass, current, name, jsonLazy, jsonLazy, null, sgClass);
+        Deserializer deserializer = DeserializerKit.createDeserializer(tClass);
+
+        return (T) deserializer.getObject(current, name);
     }
 
     @Override

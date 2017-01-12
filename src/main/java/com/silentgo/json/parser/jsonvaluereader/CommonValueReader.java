@@ -4,8 +4,8 @@ import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.configuration.JSONConfigExtra;
 import com.silentgo.json.model.*;
-import com.silentgo.json.parser.JSONReader;
 import com.silentgo.json.parser.JSONReaderKit;
+import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -18,11 +18,11 @@ import com.silentgo.json.report.JSONReport;
  */
 public class CommonValueReader implements JSONValueReader<JSONEntity> {
     @Override
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, JSONEntity outJsonObject, int depth) {
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, JSONEntity outJsonObject, int depth) {
 
         int nextDepth = depth + 1;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':
@@ -42,30 +42,30 @@ public class CommonValueReader implements JSONValueReader<JSONEntity> {
                 case Key.NUMBER_VAL9:
                 case Key.NUMBER_INTERVAL: {
                     //number
-                    return JSONReaderKit.getReader(JSONNumber.class).readValue(reader, jsonConfig, outJsonObject, nextDepth);
+                    return JSONReaderKit.Number.readValue(reader, jsonConfig, outJsonObject, nextDepth);
                 }
                 case Key.STRING_SPLIT: {
                     //string
 
-                    return JSONReaderKit.getReader(JSONString.class).readValue(reader, jsonConfig, outJsonObject, nextDepth);
+                    return JSONReaderKit.String.readValue(reader, jsonConfig, outJsonObject, nextDepth);
                 }
                 case Key.OBJECT_START: {
                     //object {}
-                    return JSONReaderKit.getReader(JSONObject.class).readValue(reader, jsonConfig, outJsonObject, nextDepth);
+                    return JSONReaderKit.Object.readValue(reader, jsonConfig, outJsonObject, nextDepth);
                 }
                 case Key.ARRAY_START: {
                     //array []
-                    return JSONReaderKit.getReader(JSONArray.class).readValue(reader, jsonConfig, outJsonObject, nextDepth);
+                    return JSONReaderKit.Array.readValue(reader, jsonConfig, outJsonObject, nextDepth);
                 }
                 case Key.NULL: {
                     //null
-                    return JSONReaderKit.getReader(JSONNull.class).readValue(reader, jsonConfig, null, nextDepth);
+                    return JSONReaderKit.Null.readValue(reader, jsonConfig, null, nextDepth);
                 }
                 case Key.BOOL_FALSE: {
-                    return JSONReaderKit.getReader(JSONBool.class).readValue(reader, new JSONConfigExtra(jsonConfig, "false"), null, nextDepth);
+                    return JSONReaderKit.Bool.readValue(reader, new JSONConfigExtra(jsonConfig, "false"), null, nextDepth);
                 }
                 case Key.BOOL_TRUE: {
-                    return JSONReaderKit.getReader(JSONBool.class).readValue(reader, new JSONConfigExtra(jsonConfig, "true"), null, nextDepth);
+                    return JSONReaderKit.Bool.readValue(reader, new JSONConfigExtra(jsonConfig, "true"), null, nextDepth);
                 }
                 default:
                     new JSONReport().report(reader, "can not handle this value");

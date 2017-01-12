@@ -1,7 +1,7 @@
 package com.silentgo.json.report;
 
 import com.silentgo.json.exception.ParseException;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : SilentGo
@@ -14,9 +14,8 @@ import com.silentgo.json.parser.JSONReader;
 public class JSONReport implements Reporter {
 
     @Override
-    public void report(JSONReader reader, String msg) {
+    public void report(Reader reader, String msg) {
         int pos = reader.pos - 10;
-        String errorData = new String(reader.data, pos < 0 ? 0 : pos, 10);
-        throw new ParseException("Json parse error : " + msg + " around \n" + errorData + " \ncol :" + reader.pos);
+        throw new ParseException("Json parse error : " + msg + " around \n" + reader.peekRange(pos > 0 ? pos : 0, (reader.pos + 5) < reader.end ? (reader.pos + 5) : reader.end) + " \ncol :" + reader.pos);
     }
 }

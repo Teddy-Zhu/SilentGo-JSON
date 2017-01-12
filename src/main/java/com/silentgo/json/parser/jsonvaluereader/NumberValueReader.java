@@ -3,9 +3,10 @@ package com.silentgo.json.parser.jsonvaluereader;
 import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.*;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : json
@@ -18,13 +19,12 @@ import com.silentgo.json.parser.JSONSkipKit;
 public class NumberValueReader implements JSONValueReader<JSONNumber> {
 
     @Override
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, JSONNumber outJsonObject, int depth) {
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, JSONNumber outJsonObject, int depth) {
         boolean forceLazy = depth > jsonConfig.getMaxDepth();
         if (jsonConfig.isLazy() || forceLazy) {
             int pos = reader.pos;
             boolean isDecimal = JSONSkipKit.skipNumber(reader);
-            JSONReader readObject = new JSONReader(reader.data, pos, reader.pos);
-            return new JSONLazy(readObject, isDecimal ? JSONDouble.class : JSONLong.class);
+            return new JSONLazy(reader.expand(pos, reader.pos), isDecimal ? JSONDouble.class : JSONLong.class);
         }
         String value;
         boolean isDecimal;
@@ -34,7 +34,7 @@ public class NumberValueReader implements JSONValueReader<JSONNumber> {
         } else {
             int i = reader.pos;
             isDecimal = JSONSkipKit.skipNumber(reader);
-            value = new String(reader.data, i, reader.pos - i);
+            value = reader.peekRange(i, reader.pos - i);
         }
 
         if (isDecimal) {

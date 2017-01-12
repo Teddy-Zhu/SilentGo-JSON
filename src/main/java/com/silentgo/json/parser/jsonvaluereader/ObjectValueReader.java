@@ -5,9 +5,10 @@ import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONObject;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
+import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -20,20 +21,19 @@ import com.silentgo.json.report.JSONReport;
  */
 public class ObjectValueReader implements JSONValueReader<JSONObject> {
     @Override
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, JSONObject outJsonObject, int depth) {
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, JSONObject outJsonObject, int depth) {
         boolean forceLazy = depth > jsonConfig.getMaxDepth();
         int initialPos = reader.pos;
 
         if (jsonConfig.isLazy() || forceLazy) {
             JSONSkipKit.skipObject(reader);
-            JSONReader readObject = new JSONReader(reader.data, initialPos, reader.pos);
-            return new JSONLazy(readObject, JSONObject.class);
+            return new JSONLazy(reader.expand(initialPos, reader.pos), JSONObject.class);
         }
 
         JSONObject jsonObject = outJsonObject == null ? new JSONObject() : outJsonObject;
         boolean isFirst = true;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':
@@ -49,12 +49,12 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
                     isFirst = false;
                     int pos = reader.pos + 1;
                     JSONSkipKit.skipString(reader);
-                    String name = new String(reader.data, pos, reader.pos - pos);
+                    String name = reader.peekRange(pos, reader.pos - pos);
 
-                    byte key = JSONReaderKit.nextWord(reader);
+                    char key = JSONReaderKit.nextWord(reader);
                     if (Key.VALUE_COL != key)
                         new JSONReport().report(reader, "can not found value");
-                    JSONEntity jsonEntity = JSONReaderKit.getReader(JSONEntity.class).readValue(reader, jsonConfig, null, depth);
+                    JSONEntity jsonEntity = JSONReaderKit.Entity.readValue(reader, jsonConfig, null, depth);
                     jsonObject.put(name, jsonEntity);
                     continue;
                 }
@@ -63,7 +63,7 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
                     continue;
                 }
                 case Key.OBJECT_END: {
-                    jsonObject.setString(new String(reader.data, initialPos, reader.pos - initialPos + 1));
+                    jsonObject.setString(reader.peekRange(initialPos, reader.pos - initialPos + 1));
                     return jsonObject;
                 }
             }

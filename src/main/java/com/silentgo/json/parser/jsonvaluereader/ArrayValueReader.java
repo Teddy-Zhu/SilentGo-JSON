@@ -4,9 +4,10 @@ import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.configuration.JSONConfigExtra;
 import com.silentgo.json.model.*;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
+import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -19,13 +20,13 @@ import com.silentgo.json.report.JSONReport;
  */
 public class ArrayValueReader implements JSONValueReader<JSONArray> {
     @Override
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, JSONArray outJsonObject, int depth) {
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, JSONArray outJsonObject, int depth) {
         boolean forceLazy = depth > jsonConfig.getMaxDepth();
         int initialPos = reader.pos;
 
         if (jsonConfig.isLazy() || forceLazy) {
             JSONSkipKit.skipArray(reader);
-            JSONReader readObject = new JSONReader(reader.data, initialPos, reader.pos);
+            Reader readObject = reader.expand(initialPos, reader.pos);
             return new JSONLazy(readObject, JSONArray.class);
         }
 
@@ -33,7 +34,7 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
         JSONArray jsonArray = outJsonObject == null ? new JSONArray() : outJsonObject;
         boolean isFirst = true;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':
@@ -51,12 +52,12 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
                 }
                 case Key.OBJECT_START: {
                     isFirst = false;
-                    jsonArray.push(JSONReaderKit.getReader(JSONObject.class).readValue(reader, jsonConfig, null, depth + 1));
+                    jsonArray.push(JSONReaderKit.Object.readValue(reader, jsonConfig, null, depth + 1));
                     continue;
                 }
                 case Key.ARRAY_START: {
                     isFirst = false;
-                    jsonArray.push(JSONReaderKit.getReader(JSONArray.class).readValue(reader, jsonConfig, null, depth + 1));
+                    jsonArray.push(JSONReaderKit.Array.readValue(reader, jsonConfig, null, depth + 1));
                     continue;
                 }
                 case Key.NUMBER_VAL_SIGN:
@@ -72,26 +73,26 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
                 case Key.NUMBER_VAL9:
                 case Key.NUMBER_INTERVAL: {
                     //number
-                    jsonArray.push(JSONReaderKit.getReader(JSONNumber.class).readValue(reader, jsonConfig, null, depth + 1));
+                    jsonArray.push(JSONReaderKit.Number.readValue(reader, jsonConfig, null, depth + 1));
                     isFirst = false;
                     continue;
                 }
                 case Key.STRING_SPLIT: {
-                    jsonArray.push(JSONReaderKit.getReader(JSONString.class).readValue(reader, jsonConfig, null, depth + 1));
+                    jsonArray.push(JSONReaderKit.String.readValue(reader, jsonConfig, null, depth + 1));
                     isFirst = false;
                     continue;
                 }
                 case Key.ARRAY_END: {
-                    jsonArray.setString(new String(reader.data, initialPos, reader.pos - initialPos + 1));
+                    jsonArray.setString(reader.peekRange(initialPos, reader.pos - initialPos + 1));
                     return jsonArray;
                 }
                 case Key.BOOL_FALSE: {
-                    jsonArray.push(JSONReaderKit.getReader(JSONBool.class).readValue(reader, new JSONConfigExtra(jsonConfig, "false"), null, depth + 1));
+                    jsonArray.push(JSONReaderKit.Bool.readValue(reader, new JSONConfigExtra(jsonConfig, "false"), null, depth + 1));
                     isFirst = false;
                     continue;
                 }
                 case Key.BOOL_TRUE: {
-                    jsonArray.push(JSONReaderKit.getReader(JSONBool.class).readValue(reader, new JSONConfigExtra(jsonConfig, "true"), null, depth + 1));
+                    jsonArray.push(JSONReaderKit.Bool.readValue(reader, new JSONConfigExtra(jsonConfig, "true"), null, depth + 1));
                     isFirst = false;
                     continue;
                 }

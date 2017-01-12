@@ -1,6 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 
 /**
  * Project : SilentGo
@@ -19,7 +19,7 @@ public class JSONString extends JSONEntity {
         this.value = value;
     }
 
-    public JSONString(JSONReader value) {
+    public JSONString(ByteReader value) {
         super(value);
         this.value = new String(value.data, value.pos, value.end - value.pos);
     }

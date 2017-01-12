@@ -16,28 +16,36 @@ import java.util.Map;
  */
 public class JSONReaderKit {
 
-    private static final Map<Class<? extends JSONEntity>, JSONValueReader> valueReaderMap;
 
-    static {
-        valueReaderMap = new HashMap<>();
-        valueReaderMap.put(JSONEntity.class, new CommonValueReader());
-        valueReaderMap.put(JSONBool.class, new BoolValueReader());
-        valueReaderMap.put(JSONNumber.class, new NumberValueReader());
-        valueReaderMap.put(JSONNull.class, new NullValueReader());
-        valueReaderMap.put(JSONString.class, new StringValueReader());
-        valueReaderMap.put(JSONObject.class, new ObjectValueReader());
-        valueReaderMap.put(JSONArray.class, new ArrayValueReader());
+    public static final JSONValueReader Number = new NumberValueReader();
+    public static final JSONValueReader Bool = new BoolValueReader();
+    public static final JSONValueReader Entity = new CommonValueReader();
+    public static final JSONValueReader Null = new NullValueReader();
+    public static final JSONValueReader String = new StringValueReader();
+    public static final JSONValueReader Object = new ObjectValueReader();
+    public static final JSONValueReader Array = new ArrayValueReader();
 
+
+    private static final Map<Class<? extends JSONEntity>, JSONValueReader> map = new HashMap<Class<? extends JSONEntity>, JSONValueReader>() {
+        {
+            put(JSONDouble.class, Number);
+            put(JSONLong.class, Number);
+            put(JSONBool.class, Bool);
+            put(JSONEntity.class, Entity);
+            put(JSONNull.class, Null);
+            put(JSONString.class, String);
+            put(JSONObject.class, Object);
+            put(JSONArray.class, Array);
+        }
+    };
+
+    public static JSONValueReader get(Class<? extends JSONEntity> clz) {
+        return map.get(clz);
     }
 
-    public static JSONValueReader getReader(Class<? extends JSONEntity> clz) {
-        return valueReaderMap.get(clz);
-    }
-
-
-    public static byte nextWord(JSONReader reader) {
+    public static char nextWord(Reader reader) {
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':
@@ -48,11 +56,11 @@ public class JSONReaderKit {
                     return b;
             }
         }
-        return JSONReader.BYTE_NULL;
+        return ByteReader.NULL;
     }
 
-    public static String getString(JSONReader reader) {
-        return new String(reader.data, reader.pos, reader.end - reader.pos);
+    public static String getString(Reader reader) {
+        return reader.peekRange(reader.pos, reader.end - reader.pos);
     }
 
 }

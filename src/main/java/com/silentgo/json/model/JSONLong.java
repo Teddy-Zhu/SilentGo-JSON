@@ -1,6 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 
 /**
  * Project : SilentGo
@@ -19,7 +19,7 @@ public class JSONLong extends JSONNumber {
         this.value = Long.valueOf(value);
     }
 
-    public JSONLong(JSONReader value) {
+    public JSONLong(ByteReader value) {
         super(value);
         String val = new String(value.data, value.pos, value.end);
         setString(val);

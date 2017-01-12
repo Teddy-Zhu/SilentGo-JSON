@@ -1,6 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 
 /**
  * Project : json
@@ -11,7 +11,7 @@ import com.silentgo.json.parser.JSONReader;
  *         Created by teddyzhu on 2017/1/7.
  */
 public abstract class JSONNumber extends JSONEntity {
-    public JSONNumber(JSONReader value) {
+    public JSONNumber(ByteReader value) {
         super(value);
     }
 }

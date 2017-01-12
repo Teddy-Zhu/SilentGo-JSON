@@ -2,9 +2,9 @@ package com.silentgo.json.model;
 
 import com.silentgo.json.JSON;
 import com.silentgo.json.configuration.JSONConfig;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
-import com.silentgo.utils.StringKit;
+import com.silentgo.json.parser.Reader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,9 +22,9 @@ public class JSONLazy extends JSONEntity {
 
     private JSONEntity value;
     private Class<? extends JSONEntity> type;
-    private JSONReader reader;
+    private Reader reader;
 
-    public JSONLazy(JSONReader reader, Class<? extends JSONEntity> type) {
+    public JSONLazy(Reader reader, Class<? extends JSONEntity> type) {
         super(null);
         this.reader = reader;
         this.type = type;
@@ -38,7 +38,7 @@ public class JSONLazy extends JSONEntity {
     @Override
     public JSONEntity get(JSONConfig jsonConfig) {
         if (value == null) {
-            value = JSONReaderKit.getReader(type).readValue(reader, jsonConfig, null, 0);
+            value = JSONReaderKit.get(type).readValue(reader, jsonConfig, null, 0);
         }
         return value;
     }
@@ -46,7 +46,7 @@ public class JSONLazy extends JSONEntity {
     @Override
     public String getString() {
         if (super.getString() == null) {
-            setString(new String(reader.data, reader.pos, reader.end - reader.pos));
+            setString(reader.peekRange(reader.pos, reader.end - reader.pos));
         }
         return super.getString();
     }

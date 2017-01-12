@@ -4,9 +4,10 @@ import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONNull;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : json
@@ -18,14 +19,13 @@ import com.silentgo.json.parser.JSONSkipKit;
  */
 public class NullValueReader implements JSONValueReader<JSONNull> {
     @Override
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, JSONNull outJsonObject, int depth) {
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, JSONNull outJsonObject, int depth) {
         boolean forceLazy = depth > jsonConfig.getMaxDepth();
 
         if (jsonConfig.isLazy() || forceLazy) {
             int pos = reader.pos;
             JSONSkipKit.skipStringArg(reader, "null", true);
-            JSONReader readObject = new JSONReader(reader.data, pos, reader.pos);
-            return new JSONLazy(readObject, JSONNull.class);
+            return new JSONLazy(reader.expand(pos, reader.pos), JSONNull.class);
         }
         String value;
         if (jsonConfig.isHasSkipped()) {
@@ -33,7 +33,7 @@ public class NullValueReader implements JSONValueReader<JSONNull> {
         } else {
             int i = reader.pos;
             JSONSkipKit.skipBlank(reader);
-            value = new String(reader.data, i, reader.pos - i);
+            value = reader.peekRange(i, reader.pos - i);
         }
 
         return new JSONNull(value);

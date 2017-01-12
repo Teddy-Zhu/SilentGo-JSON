@@ -1,9 +1,12 @@
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.silentgo.json.JSON;
 import com.silentgo.json.configuration.JSONConfig;
+import com.silentgo.json.deserializer.DeserializerKit;
+import com.silentgo.json.mapping.valreader.ReaderKit;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.parser.StringParser;
 import com.silentgo.json.parser.StringParserImpl;
+import com.silentgo.utils.ReflectKit;
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -24,6 +27,7 @@ public class BaseTest {
     public static void main(String[] args) throws IOException {
         //JsonBuilder jsonBuilder = new JsonBuilder().useJsonObjectFactory(TreeMap::new).useJsonArrayFactory(LinkedList::new);
         String jsonStr = "{\n" +
+                "\"time\" : true," +
                 "    \"id\": 123,\n" +
                 "    \"name\": \"Mic[hael\",\n" +
                 "    \"tags\": [\"Mus{ic\", \"Football\", \"Running\"],\n" +
@@ -39,20 +43,23 @@ public class BaseTest {
 
         int i = 100000;
 
+        //DeserializerKit.createDeserializer(User.class);
         List<User> users = new ArrayList<>();
         StringParser stringParser = new StringParserImpl();
-//
+        //User user = stringParser.parse(jsonStr, User.class, JSON.config);
 //        ParserConfig config = new ParserConfig();
 //        config.setAsmEnable(false);
-//        com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class, config);
-
-
+     //   users = com.alibaba.fastjson.JSON.parseObject(jsonStr, users.getClass());
+//        ReflectKit.getSGClass(User.class);
+//        ReflectKit.getSGClass(User.class);
+//
+//        JSON.cc = stringParser.parse(jsonStr.getBytes(), JSON.config);
         Long start = System.currentTimeMillis();
         for (int i1 = 0; i1 < i; i1++) {
             users.add(stringParser.parse(jsonStr, User.class, JSON.config));
         }
 //        for (int i1 = 0; i1 < i; i1++) {
-//            users.add(com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class));
+//            users.add(com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class, config));
 //        }
 
         //System.out.println(entity);

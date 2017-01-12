@@ -1,6 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -22,11 +22,11 @@ public class JSONNull extends JSONEntity {
     public JSONNull(String value) {
         super(null);
         if (!"null".equals(value.trim().toLowerCase())) {
-            new JSONReport().report(new JSONReader(value.getBytes(), 0, value.length()), "the value can not parsed");
+            new JSONReport().report(new ByteReader(value.getBytes(), 0, value.length()), "the value can not parsed");
         }
     }
 
-    public JSONNull(JSONReader value) {
+    public JSONNull(ByteReader value) {
         super(null);
     }
 

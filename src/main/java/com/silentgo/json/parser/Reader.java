@@ -8,15 +8,21 @@ package com.silentgo.json.parser;
  *         <p>
  *         Created by teddyzhu on 2017/1/4.
  */
-public interface Reader {
+public abstract class Reader {
+    public int pos;
+    public int end;
 
-    public byte next();
+    public abstract char next();
 
-    public boolean hasNext();
+    public abstract boolean hasNext();
 
-    public byte peek();
+    public abstract char peek();
 
-    public byte peek(int position);
+    public abstract char peek(int position);
 
-    public byte peekNext();
+    public abstract char peekNext();
+
+    public abstract String peekRange(int start, int length);
+
+    public abstract Reader expand(int pos, int end);
 }

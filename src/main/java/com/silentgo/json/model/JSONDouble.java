@@ -1,6 +1,6 @@
 package com.silentgo.json.model;
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -19,13 +19,13 @@ public class JSONDouble extends JSONNumber {
         super(null);
         int d = value.indexOf('.');
         if (d == 0 || d == value.length() - 1) {
-            new JSONReport().report(new JSONReader(value.getBytes(), d, value.length()), "the number has error format");
+            new JSONReport().report(new ByteReader(value.getBytes(), d, value.length()), "the number has error format");
         }
         setString(value);
         this.value = Double.valueOf(value);
     }
 
-    public JSONDouble(JSONReader value) {
+    public JSONDouble(ByteReader value) {
         super(value);
         String val = new String(value.data, value.pos, value.end);
         setString(val);

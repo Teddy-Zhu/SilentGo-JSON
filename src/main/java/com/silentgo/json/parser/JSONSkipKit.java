@@ -1,9 +1,7 @@
 package com.silentgo.json.parser;
 
-import com.silentgo.json.report.JSONReport;
 import com.silentgo.json.common.Key;
-
-import java.util.Stack;
+import com.silentgo.json.report.JSONReport;
 
 /**
  * Project : SilentGo
@@ -15,11 +13,10 @@ import java.util.Stack;
  */
 public class JSONSkipKit {
 
-    public static void skipObject(JSONReader reader) {
-        Stack stack = new Stack();
-        stack.push('{');
+    public static void skipObject(Reader reader) {
+        int i = 1;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 default:
                     continue;
@@ -27,17 +24,13 @@ public class JSONSkipKit {
                     skipString(reader);
                     continue;
                 }
-                case Key.ARRAY_START: {
-                    skipArray(reader);
-                    continue;
-                }
                 case Key.OBJECT_START: {
-                    stack.push(b);
+                    i++;
                     continue;
                 }
                 case Key.OBJECT_END: {
-                    stack.pop();
-                    if (stack.isEmpty()) {
+                    i--;
+                    if (i == 0) {
                         return;
                     }
                 }
@@ -46,21 +39,24 @@ public class JSONSkipKit {
         new JSONReport().report(reader, "can not found object closure }");
     }
 
-    public static void skipArray(JSONReader reader) {
-        Stack stack = new Stack();
-        stack.push('[');
+    public static void skipArray(Reader reader) {
+        int i = 1;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 default:
                     continue;
+                case Key.STRING_SPLIT: {
+                    skipString(reader);
+                    continue;
+                }
                 case Key.ARRAY_START: {
-                    stack.push(b);
+                    i++;
                     continue;
                 }
                 case Key.ARRAY_END: {
-                    stack.pop();
-                    if (stack.isEmpty()) {
+                    i--;
+                    if (i == 0) {
                         return;
                     }
                 }
@@ -69,9 +65,9 @@ public class JSONSkipKit {
         new JSONReport().report(reader, "can not found array closure ]");
     }
 
-    public static void skipString(JSONReader reader) {
+    public static void skipString(Reader reader) {
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 default:
                     continue;
@@ -82,14 +78,13 @@ public class JSONSkipKit {
                 }
             }
         }
-
         new JSONReport().report(reader, "string end can not found");
     }
 
-    public static boolean skipNumber(JSONReader reader) {
+    public static boolean skipNumber(Reader reader) {
         boolean isDecimal = false;
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case Key.NUMBER_INTERVAL: {
                     isDecimal = true;
@@ -124,26 +119,31 @@ public class JSONSkipKit {
         return isDecimal;
     }
 
-    public static void skipStringArg(JSONReader reader, String str, boolean ignoreCaseSensitive) {
-        int i = 0;
-        while (reader.hasNext() & i < str.length()) {
-            byte b = reader.next();
-            if (ignoreCaseSensitive) {
+    public static void skipStringArg(Reader reader, String str, boolean ignoreCaseSensitive) {
+        int i = 1;
+        if (ignoreCaseSensitive) {
+            while (reader.hasNext() && i < str.length()) {
+                char b = reader.next();
                 if (Character.toLowerCase(b) != str.charAt(i)) {
                     new JSONReport().report(reader, "unknown string");
                 }
-            } else {
+                i++;
+            }
+        } else {
+            while (reader.hasNext() && i < str.length()) {
+                char b = reader.next();
                 if (b != str.charAt(i)) {
                     new JSONReport().report(reader, "unknown string");
                 }
+                i++;
             }
-
         }
     }
 
-    public static void skipBlank(JSONReader reader) {
+
+    public static void skipBlank(Reader reader) {
         while (reader.hasNext()) {
-            byte b = reader.next();
+            char b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':

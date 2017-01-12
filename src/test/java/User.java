@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -9,10 +10,19 @@ import java.util.List;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class User {
+    boolean time;
     int id;
     String name;
     List<String> tags; // <-- ["Music", "Football", "Running"]
     Address address; // <-- { "street": "No.1 Road", "zipcode": "12345" }
+
+    public boolean getTime() {
+        return time;
+    }
+
+    public void setTime(boolean time) {
+        this.time = time;
+    }
 
     public int getId() {
         return id;

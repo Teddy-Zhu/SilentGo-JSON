@@ -2,7 +2,7 @@ package com.silentgo.json.parser.jsonvaluereader;
 
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : json
@@ -14,6 +14,6 @@ import com.silentgo.json.parser.JSONReader;
  */
 public interface JSONValueReader<T extends JSONEntity> {
 
-    public JSONEntity readValue(JSONReader reader, JSONConfig jsonConfig, T outJsonObject, int depth);
+    public JSONEntity readValue(Reader reader, JSONConfig jsonConfig, T outJsonObject, int depth);
 
 }

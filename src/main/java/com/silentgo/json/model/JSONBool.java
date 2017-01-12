@@ -1,7 +1,7 @@
 package com.silentgo.json.model;
 
 import com.silentgo.json.configuration.JSONConfig;
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.ByteReader;
 
 /**
  * Project : SilentGo
@@ -20,7 +20,7 @@ public class JSONBool extends JSONEntity {
         this.value = Boolean.valueOf(value);
     }
 
-    public JSONBool(JSONReader reader) {
+    public JSONBool(ByteReader reader) {
         super(null);
         String value = new String(reader.data, reader.pos, reader.end);
         setString(value);

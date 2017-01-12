@@ -1,7 +1,7 @@
 package com.silentgo.json.report;
 
 
-import com.silentgo.json.parser.JSONReader;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : json
@@ -13,5 +13,5 @@ import com.silentgo.json.parser.JSONReader;
  */
 public interface Reporter {
 
-    public void report(JSONReader reader, String msg);
+    public void report(Reader reader, String msg);
 }

@@ -11,7 +11,7 @@ import com.silentgo.json.model.JSONEntity;
  *         <p>
  *         Created by teddyzhu on 2017/1/4.
  */
-public interface StringParser extends ByteParser {
+public interface StringParser {
     public <T> T parse(String input, Class<T> tClass, JSONConfig jsonConfig);
 
     public JSONEntity parse(String input, JSONConfig jsonConfig);

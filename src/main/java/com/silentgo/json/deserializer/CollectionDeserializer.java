@@ -6,6 +6,7 @@ import com.silentgo.json.model.JSONEntity;
 import com.silentgo.utils.ClassKit;
 import com.silentgo.utils.reflect.SGField;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -16,7 +17,7 @@ import java.util.List;
  *         <p>
  *         Created by teddyzhu on 2017/1/11.
  */
-public class  CollectionDeserializer implements Deserializer {
+public class CollectionDeserializer implements Deserializer {
 
     private Deserializer child;
 
@@ -37,15 +38,15 @@ public class  CollectionDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
+    public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target) {
         JSONArray jsonArray = ReaderKit.getTarget(entity, JSONArray.class, "json can not be transformed to array");
 
-        List<Object> ret = (List<Object>) ClassKit.createCollection(List.class);
+        Collection<Object> ret = target == null ? ClassKit.createCollection(Collection.class) : (Collection<Object>) target;
         List<JSONEntity> entities = jsonArray.get();
 
         for (int i = 0; i < entities.size(); i++) {
             JSONEntity jsonEntity = entities.get(i);
-            ret.add(child.getObject(jsonEntity, null, null));
+            ret.add(child.getObject(jsonEntity, null, null, null));
         }
         return ret;
     }

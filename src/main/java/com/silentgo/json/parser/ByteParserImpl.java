@@ -8,6 +8,8 @@ import com.silentgo.json.model.JSONEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+
 /**
  * Project : SilentGo
  * Package : com.silentgo.json
@@ -28,6 +30,11 @@ public class ByteParserImpl implements ByteParser {
     @Override
     public JSONEntity parse(byte[] bytes, JSONConfig jsonConfig) {
         return JSONReaderKit.Entity.readValue(new ByteReader(bytes, -1, bytes.length - 1), jsonConfig, null, 0);
+    }
+
+    @Override
+    public <T> Collection<T> parseCollection(byte[] input, Class<T> tClass, JSONConfig jsonConfig) {
+        return JSON.mapper.mapCollection(parse(input, jsonConfig), tClass, null);
     }
 
 }

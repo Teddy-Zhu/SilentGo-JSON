@@ -36,13 +36,13 @@ public class MapDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
+    public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target) {
         JSONObject jsonObject = ReaderKit.getTarget(entity, JSONObject.class, "json can not be transformed to json object");
 
-        Map<String, Object> map = new HashMap<>();
+        Map<String, Object> map = target == null ? new HashMap<>() : (Map<String, Object>) target;
         Map<String, JSONEntity> objectMap = jsonObject.get();
 
-        objectMap.forEach((k, v) -> map.put(k, child.getObject(v, null, k)));
+        objectMap.forEach((k, v) -> map.put(k, child.getObject(v, null, k, null)));
         return map;
     }
 }

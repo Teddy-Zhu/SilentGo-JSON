@@ -88,10 +88,10 @@ public class JavaBeanDeserializer implements Deserializer {
     }
 
     @Override
-    public Object getObject(JSONEntity entity, SGField sgField, Object key) {
+    public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target) {
         JSONObject jsonObject = ReaderKit.getTarget(entity, JSONObject.class, "json can not be transformed to object");
-        Object target = null;
-        if (sgConstructor.isDefault()) {
+
+        if (target == null && sgConstructor.isDefault()) {
             if (!sgConstructor.getConstructor().isAccessible())
                 sgConstructor.getConstructor().setAccessible(true);
             try {
@@ -107,7 +107,7 @@ public class JavaBeanDeserializer implements Deserializer {
         fieldDeserializer.forEach((s, deserializer) -> {
             JSONEntity entity1 = jsonObject.get(s);
             if (entity1 == null) return;
-            Object object = deserializer.getObject(jsonObject.get(s), sgClass.getField(s), s);
+            Object object = deserializer.getObject(jsonObject.get(s), sgClass.getField(s), s, null);
             if (finalTarget == null) {
                 fieldMap.put(s, object);
             } else {
@@ -124,7 +124,7 @@ public class JavaBeanDeserializer implements Deserializer {
             }
         });
 
-        if (!sgConstructor.isDefault()) {
+        if (target == null && !sgConstructor.isDefault()) {
             Object[] obj = new Object[sgConstructor.getParameterNames().length];
             for (int i = 0; i < this.constructorParameterFieldNames.length; i++) {
                 obj[i] = fieldMap.get(constructorParameterFieldNames[i]);

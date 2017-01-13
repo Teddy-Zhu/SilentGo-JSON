@@ -13,5 +13,5 @@ import com.silentgo.utils.reflect.SGField;
  */
 public interface Deserializer {
 
-    public Object getObject(JSONEntity entity, SGField sgField, Object key);
+    public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target);
 }

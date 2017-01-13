@@ -3,6 +3,8 @@ package com.silentgo.json.parser;
 import com.silentgo.json.model.*;
 import com.silentgo.json.parser.jsonvaluereader.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,6 +46,7 @@ public class JSONReaderKit {
     }
 
     public static char nextWord(Reader reader) {
+
         while (reader.hasNext()) {
             char b = reader.next();
             switch (b) {

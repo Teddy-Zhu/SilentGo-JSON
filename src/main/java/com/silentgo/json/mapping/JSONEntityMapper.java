@@ -1,12 +1,12 @@
 package com.silentgo.json.mapping;
 
-import com.silentgo.json.JSON;
+import com.silentgo.json.deserializer.CollectionDeserializer;
 import com.silentgo.json.deserializer.Deserializer;
 import com.silentgo.json.deserializer.DeserializerKit;
-import com.silentgo.json.exception.DeserializerException;
 import com.silentgo.json.mapping.inter.JSONMapper;
+import com.silentgo.json.mapping.valreader.ReaderKit;
+import com.silentgo.json.model.JSONArray;
 import com.silentgo.json.model.JSONEntity;
-import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONObject;
 import com.silentgo.utils.StringKit;
 
@@ -25,35 +25,39 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
 
     @Override
     public <T> Collection<T> mapCollection(JSONEntity json, Class<T> tClass, String name) {
-        return null;
+        JSONEntity current = json;
+        if (StringKit.isNotBlank(name)) {
+            current = ReaderKit.getTarget(json, JSONObject.class, "json entity must be object");
+        }
+        return mapCollection(current, tClass);
     }
 
     @Override
     public <T> Collection<T> mapCollection(JSONEntity json, Class<T> tClass) {
-        return null;
+        JSONArray jsonArray = ReaderKit.getTarget(json, JSONArray.class, "json must be array");
+        return (Collection<T>) new CollectionDeserializer(DeserializerKit.createDeserializer(tClass)).getObject(jsonArray, null, null, null);
     }
 
     @Override
     public <T> T map(JSONEntity jsonLazy, Class<T> tClass, String name) {
         JSONEntity current = jsonLazy;
         if (StringKit.isNotBlank(name)) {
-            if (jsonLazy instanceof JSONLazy && JSONObject.class.equals(((JSONLazy) jsonLazy).getType())) {
-                JSONObject jsonObject = (JSONObject) jsonLazy.get(JSON.oneDepthConfig);
-                current = jsonObject.get(name);
-            } else if (jsonLazy instanceof JSONObject) {
-                // current = jsonLazy;
-            } else {
-                throw new DeserializerException("json can not be case to object");
-            }
+            current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
         }
         Deserializer deserializer = DeserializerKit.createDeserializer(tClass);
 
-        return (T) deserializer.getObject(current, null, name);
+        return (T) deserializer.getObject(current, null, name, null);
     }
 
     @Override
     public <T> T map(JSONEntity jsonLazy, T entity, String name) {
-        return null;
+        JSONEntity current = jsonLazy;
+        if (StringKit.isNotBlank(name)) {
+            current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
+        }
+        Deserializer deserializer = DeserializerKit.createDeserializer(entity.getClass());
+
+        return (T) deserializer.getObject(current, null, name, entity);
     }
 
 }

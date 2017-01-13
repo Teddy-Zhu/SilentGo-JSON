@@ -12,20 +12,11 @@ import java.util.List;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class User {
-    @JSONField("yyyy-MM-dd HH:mm:ss")
-    Date time;
+
     int id;
     String name;
     List<String> tags; // <-- ["Music", "Football", "Running"]
     Address address; // <-- { "street": "No.1 Road", "zipcode": "12345" }
-
-    public Date getTime() {
-        return time;
-    }
-
-    public void setTime(Date time) {
-        this.time = time;
-    }
 
     public int getId() {
         return id;

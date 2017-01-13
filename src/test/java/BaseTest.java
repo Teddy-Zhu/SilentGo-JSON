@@ -42,9 +42,10 @@ public class BaseTest {
 
         int i = 100000;
 
-        DeserializerKit.createDeserializer(User.class);
-        List<User> users = new ArrayList<>();
-        StringParser stringParser = new StringParserImpl();
+
+        Long start = System.currentTimeMillis();
+        //dDeserializerKit.createDeserializer(User.class);
+        List<Map> users = new ArrayList<>();
         //User user = stringParser.parse(jsonStr, User.class, JSON.config);
 //        ParserConfig config = new ParserConfig();
 //        config.setAsmEnable(false);
@@ -53,13 +54,12 @@ public class BaseTest {
 //        ReflectKit.getSGClass(User.class);
 //
 //        JSON.cc = stringParser.parse(jsonStr.getBytes(), JSON.config);
-        Long start = System.currentTimeMillis();
+
+
         for (int i1 = 0; i1 < i; i1++) {
-            users.add(stringParser.parse(jsonStr, User.class, JSON.config));
+            users.add(JSON.parse(jsonStr, Map.class));
         }
-//        for (int i1 = 0; i1 < i; i1++) {
-//            users.add(com.alibaba.fastjson.JSON.parseObject(jsonStr, User.class));
-//        }
+        System.out.println(System.currentTimeMillis() - start);
 
         //System.out.println(entity);
         // List<User> a = new ArrayList<User>();
@@ -81,7 +81,6 @@ public class BaseTest {
 //            list.add(parser.parse(json2));
 //        }
 //        System.out.println(System.currentTimeMillis() - start);
-        System.out.println(System.currentTimeMillis() - start);
 
     }
 

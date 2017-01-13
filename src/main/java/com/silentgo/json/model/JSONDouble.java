@@ -1,6 +1,7 @@
 package com.silentgo.json.model;
 
 import com.silentgo.json.parser.ByteReader;
+import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -25,9 +26,9 @@ public class JSONDouble extends JSONNumber {
         this.value = Double.valueOf(value);
     }
 
-    public JSONDouble(ByteReader value) {
+    public JSONDouble(Reader value) {
         super(value);
-        String val = new String(value.data, value.pos, value.end);
+        String val = value.peekRange(value.pos, value.end);
         setString(val);
         this.value = Double.valueOf(val);
     }

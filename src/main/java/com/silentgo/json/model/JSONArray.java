@@ -3,6 +3,7 @@ package com.silentgo.json.model;
 import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.configuration.JSONConfig;
+import com.silentgo.json.parser.Reader;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +25,7 @@ public class JSONArray extends JSONEntity {
         this.list = new ArrayList<>();
     }
 
-    public JSONArray(ByteReader reader) {
+    public JSONArray(Reader reader) {
         super(null);
         list = new ArrayList<>();
         JSONReaderKit.Array.readValue(reader, new JSONConfig(false), this, 0);

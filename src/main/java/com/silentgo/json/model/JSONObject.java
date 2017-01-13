@@ -3,6 +3,7 @@ package com.silentgo.json.model;
 import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.configuration.JSONConfig;
+import com.silentgo.json.parser.Reader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class JSONObject extends JSONEntity {
         map = new HashMap<>();
     }
 
-    public JSONObject(ByteReader value) {
+    public JSONObject(Reader value) {
         super(null);
         this.map = new HashMap<>();
 

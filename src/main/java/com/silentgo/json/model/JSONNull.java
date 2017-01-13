@@ -1,6 +1,7 @@
 package com.silentgo.json.model;
 
 import com.silentgo.json.parser.ByteReader;
+import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
 
 /**
@@ -26,7 +27,7 @@ public class JSONNull extends JSONEntity {
         }
     }
 
-    public JSONNull(ByteReader value) {
+    public JSONNull(Reader value) {
         super(null);
     }
 

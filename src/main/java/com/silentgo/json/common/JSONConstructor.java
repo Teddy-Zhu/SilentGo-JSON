@@ -1,7 +1,7 @@
 package com.silentgo.json.common;
 
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.model.*;
+import com.silentgo.json.parser.Reader;
 
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
@@ -22,13 +22,13 @@ public class JSONConstructor {
     static {
         constructorMap = new HashMap<>();
         try {
-            constructorMap.put(JSONDouble.class, JSONDouble.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONLong.class, JSONLong.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONObject.class, JSONObject.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONArray.class, JSONArray.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONBool.class, JSONBool.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONString.class, JSONString.class.getConstructor(ByteReader.class));
-            constructorMap.put(JSONNull.class, JSONNull.class.getConstructor(ByteReader.class));
+            constructorMap.put(JSONDouble.class, JSONDouble.class.getConstructor(Reader.class));
+            constructorMap.put(JSONLong.class, JSONLong.class.getConstructor(Reader.class));
+            constructorMap.put(JSONObject.class, JSONObject.class.getConstructor(Reader.class));
+            constructorMap.put(JSONArray.class, JSONArray.class.getConstructor(Reader.class));
+            constructorMap.put(JSONBool.class, JSONBool.class.getConstructor(Reader.class));
+            constructorMap.put(JSONString.class, JSONString.class.getConstructor(Reader.class));
+            constructorMap.put(JSONNull.class, JSONNull.class.getConstructor(Reader.class));
 
         } catch (NoSuchMethodException e) {
             e.printStackTrace();

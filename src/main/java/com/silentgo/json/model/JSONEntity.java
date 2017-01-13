@@ -2,6 +2,7 @@ package com.silentgo.json.model;
 
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.parser.ByteReader;
+import com.silentgo.json.parser.Reader;
 
 /**
  * Project : SilentGo
@@ -15,7 +16,7 @@ public abstract class JSONEntity {
 
     private String string;
 
-    public JSONEntity(ByteReader value) {
+    public JSONEntity(Reader value) {
     }
 
     public String getString() {

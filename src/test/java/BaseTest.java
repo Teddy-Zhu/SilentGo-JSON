@@ -1,17 +1,8 @@
-import com.alibaba.fastjson.parser.ParserConfig;
 import com.silentgo.json.JSON;
-import com.silentgo.json.configuration.JSONConfig;
-import com.silentgo.json.deserializer.DeserializerKit;
-import com.silentgo.json.mapping.valreader.ReaderKit;
-import com.silentgo.json.model.JSONEntity;
-import com.silentgo.json.parser.StringParser;
-import com.silentgo.json.parser.StringParserImpl;
-import com.silentgo.utils.ReflectKit;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.ParameterizedType;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Project : jsonstream
@@ -22,8 +13,6 @@ import java.util.*;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class BaseTest {
-    public static Map<String, Object> aaa = new HashMap<>();
-
     public static void main(String[] args) throws IOException {
         //JsonBuilder jsonBuilder = new JsonBuilder().useJsonObjectFactory(TreeMap::new).useJsonArrayFactory(LinkedList::new);
         String jsonStr = "{\n" +
@@ -40,12 +29,12 @@ public class BaseTest {
         //JSON.config.setLazy(true);
         // String json2 = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
 
-        int i = 100000;
+        int i = 1;
 
 
         Long start = System.currentTimeMillis();
         //dDeserializerKit.createDeserializer(User.class);
-        List<Map> users = new ArrayList<>();
+        List<User> users = new ArrayList<>();
         //User user = stringParser.parse(jsonStr, User.class, JSON.config);
 //        ParserConfig config = new ParserConfig();
 //        config.setAsmEnable(false);
@@ -57,7 +46,7 @@ public class BaseTest {
 
 
         for (int i1 = 0; i1 < i; i1++) {
-            users.add(JSON.parse(jsonStr, Map.class));
+            users.add(JSON.parse(jsonStr, User.class));
         }
         System.out.println(System.currentTimeMillis() - start);
 

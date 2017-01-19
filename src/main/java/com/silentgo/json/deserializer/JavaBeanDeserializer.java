@@ -2,18 +2,21 @@ package com.silentgo.json.deserializer;
 
 import com.silentgo.json.annotation.JSONConstructor;
 import com.silentgo.json.annotation.JSONField;
+import com.silentgo.json.annotation.JSONGetter;
+import com.silentgo.json.annotation.JSONSetter;
 import com.silentgo.json.exception.DeserializerException;
 import com.silentgo.json.mapping.valreader.ReaderKit;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONObject;
+import com.silentgo.utils.StringKit;
 import com.silentgo.utils.common.Const;
+import com.silentgo.utils.log.Log;
+import com.silentgo.utils.log.LogFactory;
 import com.silentgo.utils.reflect.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
+import javax.swing.text.html.parser.Entity;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Project : json
@@ -25,7 +28,7 @@ import java.util.Map;
  */
 public class JavaBeanDeserializer implements Deserializer {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JavaBeanDeserializer.class);
+    private static final Log LOGGER = LogFactory.get();
 
     private SGClass sgClass;
 
@@ -37,10 +40,13 @@ public class JavaBeanDeserializer implements Deserializer {
 
     private Map<String, Deserializer> fieldDeserializer;
 
+    private List<Deserializer> jsonSetterList;
+
     public JavaBeanDeserializer(SGClass sgClass) {
         this.sgClass = sgClass;
         this.fieldDeserializer = new HashMap<>();
         this.setterMap = new HashMap<>();
+        this.jsonSetterList = new ArrayList<>();
         if (sgClass.getDefaultConstructor() != null)
             this.sgConstructor = sgClass.getDefaultConstructor();
         for (SGConstructor constructor : sgClass.getConstructors()) {
@@ -66,10 +72,35 @@ public class JavaBeanDeserializer implements Deserializer {
             }
         }
 
+        sgClass.getMethodMap().forEach(((method, sgMethod) -> {
+            JSONSetter jsonSetter = (JSONSetter) sgMethod.getAnnotation(JSONSetter.class);
+            if (jsonSetter == null) return;
+
+            String[] names = new String[sgMethod.getParameterNames().length];
+
+            List<Map.Entry<String, SGParameter>> entity = new ArrayList<>(sgMethod.getParameterMap().entrySet());
+
+            for (int i = 0, len = entity.size(); i < len; i++) {
+                Map.Entry<String, SGParameter> parameterEntry = entity.get(i);
+                String name = parameterEntry.getKey();
+                SGParameter sgParameter = parameterEntry.getValue();
+                JSONField field = (JSONField) sgParameter.getAnnotation(JSONField.class);
+                if (field == null) {
+                    names[i] = name;
+                } else {
+                    names[i] = field.value();
+                }
+            }
+
+            jsonSetterList.add(new JSONSetDeserializer(names, sgMethod));
+
+        }));
+
     }
 
 
     public void addDeserializer(String name, Deserializer deserializer) {
+        if (setterMap.containsKey(name)) return;
         SGField sgField = sgClass.getFieldMap().get(name);
         if (sgField.getSetMethod() != null) {
             setterMap.put(name, sgField.getSetMethod());
@@ -108,9 +139,8 @@ public class JavaBeanDeserializer implements Deserializer {
             JSONEntity entity1 = jsonObject.get(s);
             if (entity1 == null) return;
             Object object = deserializer.getObject(jsonObject.get(s), sgClass.getField(s), s, null);
-            if (finalTarget == null) {
-                fieldMap.put(s, object);
-            } else {
+            fieldMap.put(s, object);
+            if (finalTarget != null) {
                 SGEntity sgEntity = setterMap.get(s);
                 if (sgEntity == null) return;
                 if (sgEntity instanceof SGField) {
@@ -135,10 +165,15 @@ public class JavaBeanDeserializer implements Deserializer {
                 }
                 target = sgConstructor.getConstructor().newInstance(obj);
             } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
-                LOGGER.error("type :" + sgClass.getClz().getName() + " instance failed by instance : " + sgConstructor.getConstructor(), e);
+                LOGGER.error(e, "type : {} instance failed by instance : {}", sgClass.getClz().getName(), sgConstructor.getConstructor());
                 throw new DeserializerException("type :" + sgClass.getClz().getName() + " instance failed by instance : " + sgConstructor.getConstructor(), e);
             }
         }
+
+        for (Deserializer deserializer : jsonSetterList) {
+            deserializer.getObject(null, null, fieldMap, target);
+        }
+
         return target;
     }
 

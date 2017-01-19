@@ -2,11 +2,10 @@ package com.silentgo.json.model;
 
 import com.silentgo.json.JSON;
 import com.silentgo.json.configuration.JSONConfig;
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.Reader;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.silentgo.utils.log.Log;
+import com.silentgo.utils.log.LogFactory;
 
 /**
  * Project : SilentGo
@@ -18,7 +17,7 @@ import org.slf4j.LoggerFactory;
  */
 public class JSONLazy extends JSONEntity {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(JSONLazy.class);
+    private static final Log LOGGER = LogFactory.get();
 
     private JSONEntity value;
     private Class<? extends JSONEntity> type;

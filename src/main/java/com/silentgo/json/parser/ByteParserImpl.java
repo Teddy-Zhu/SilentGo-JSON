@@ -2,11 +2,7 @@ package com.silentgo.json.parser;
 
 import com.silentgo.json.JSON;
 import com.silentgo.json.configuration.JSONConfig;
-import com.silentgo.json.mapping.JSONEntityMapper;
-import com.silentgo.json.mapping.inter.JSONMapper;
 import com.silentgo.json.model.JSONEntity;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.Collection;
 
@@ -19,8 +15,6 @@ import java.util.Collection;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class ByteParserImpl implements ByteParser {
-
-    private static final Logger logger = LoggerFactory.getLogger(ByteParserImpl.class);
 
     @Override
     public <T> T parse(byte[] bytes, Class<T> tClass, JSONConfig jsonConfig) {

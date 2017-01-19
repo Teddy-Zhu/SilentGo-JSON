@@ -34,9 +34,10 @@ public class DefaultDeserializer implements Deserializer {
         if (entity instanceof JSONObject) {
             Map<String, Object> map = new HashMap<>();
             Map<String, JSONEntity> entityMap = (Map<String, JSONEntity>) entity.get();
-            entityMap.forEach((k, v) -> {
-                map.put(k, this.getObject(v, null, k, null));
-            });
+
+            for (Map.Entry<String, JSONEntity> stringJSONEntityEntry : entityMap.entrySet()) {
+                map.put(stringJSONEntityEntry.getKey(), this.getObject(stringJSONEntityEntry.getValue(), null, stringJSONEntityEntry.getKey(), null));
+            }
             return map;
         }
         return entity.get();

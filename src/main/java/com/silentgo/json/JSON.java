@@ -9,6 +9,7 @@ import com.silentgo.json.parser.ByteParser;
 import com.silentgo.json.parser.ByteParserImpl;
 import com.silentgo.json.parser.StringParser;
 import com.silentgo.json.parser.StringParserImpl;
+import com.silentgo.json.serializer.SerializerKit;
 
 import java.util.Collection;
 
@@ -52,5 +53,9 @@ public class JSON {
 
     public static <T> Collection<T> parseCollection(String text, Class<T> type) {
         return stringParser.parseCollection(text, type, config);
+    }
+
+    public static String toJSONString(Object object) {
+        return SerializerKit.createSerializer(object.getClass()).serialize(object);
     }
 }

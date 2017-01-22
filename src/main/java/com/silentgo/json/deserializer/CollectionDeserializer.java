@@ -1,6 +1,6 @@
 package com.silentgo.json.deserializer;
 
-import com.silentgo.json.mapping.valreader.ReaderKit;
+import com.silentgo.json.mapping.ReaderKit;
 import com.silentgo.json.model.JSONArray;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.utils.ClassKit;

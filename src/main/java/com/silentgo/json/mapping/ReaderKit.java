@@ -1,4 +1,4 @@
-package com.silentgo.json.mapping.valreader;
+package com.silentgo.json.mapping;
 
 import com.silentgo.json.JSON;
 import com.silentgo.json.exception.DeserializerException;

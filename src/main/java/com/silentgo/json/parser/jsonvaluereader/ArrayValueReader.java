@@ -99,7 +99,7 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
                 }
             }
         }
-        new JSONReport().report(reader, "can not found array closure ]");
+        new JSONReport().report(reader, "can not find array closure ]");
         return null;
     }
 }

@@ -1,5 +1,10 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.utils.log.Log;
+import com.silentgo.utils.log.LogFactory;
+
+import java.lang.reflect.Array;
+
 /**
  * Project : json
  * Package : com.silentgo.json.serializer
@@ -9,9 +14,28 @@ package com.silentgo.json.serializer;
  *         Created by teddyzhu on 2017/1/19.
  */
 public class ArraySerializer implements Serializer {
+
+    private static final Log LOGGER = LogFactory.get();
+
+    private Serializer child;
+
+    public ArraySerializer(Serializer child) {
+        this.child = child;
+    }
+
     @Override
     public String serialize(Object object) {
-
-        return null;
+        if (object != null && object.getClass().isArray()) {
+            SerializerBuilder stringBuilder = new SerializerBuilder("[");
+            int length = Array.getLength(object);
+            for (int i = 0, len = length - 1; i < len; i++) {
+                stringBuilder.append(child.serialize(Array.get(object, i))).appendInterval();
+            }
+            stringBuilder.append(child.serialize(Array.get(object, length - 1))).appendArrayEnd();
+            return stringBuilder.toString();
+        } else {
+            LOGGER.error("the object is not array ");
+            return SerializerBuilder.NULL;
+        }
     }
 }

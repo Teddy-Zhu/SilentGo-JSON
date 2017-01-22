@@ -43,7 +43,7 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
                     continue;
                 }
                 default: {
-                    new JSONReport().report(reader, "parse object error , can not found key start");
+                    new JSONReport().report(reader, "parse object error , can not find key start");
                 }
                 case Key.STRING_SPLIT: {
                     isFirst = false;
@@ -53,7 +53,7 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
 
                     char key = JSONReaderKit.nextWord(reader);
                     if (Key.VALUE_COL != key)
-                        new JSONReport().report(reader, "can not found value");
+                        new JSONReport().report(reader, "can not find value");
                     JSONEntity jsonEntity = JSONReaderKit.Entity.readValue(reader, jsonConfig, null, depth);
                     jsonObject.put(name, jsonEntity);
                     continue;
@@ -68,7 +68,7 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
                 }
             }
         }
-        new JSONReport().report(reader, "can not found object closure }");
+        new JSONReport().report(reader, "can not find object closure }");
         return null;
     }
 }

@@ -1,8 +1,11 @@
 import com.silentgo.json.JSON;
+import com.silentgo.json.serializer.SerializerKit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Project : jsonstream
@@ -13,7 +16,16 @@ import java.util.List;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class BaseTest {
-    public static void main(String[] args) throws IOException {
+
+    public List<String> aaa() {
+        return null;
+    }
+
+    public static void main(String[] args) throws IOException, NoSuchMethodException {
+
+
+        System.out.println(BaseTest.class.getMethod("aaa"));
+        ;
         //JsonBuilder jsonBuilder = new JsonBuilder().useJsonObjectFactory(TreeMap::new).useJsonArrayFactory(LinkedList::new);
         String jsonStr = "{\n" +
                 "    \"id\": 123,\n" +
@@ -29,12 +41,11 @@ public class BaseTest {
         //JSON.config.setLazy(true);
         // String json2 = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
 
-        int i = 1;
+        int i = 100000;
 
-
+        User user = JSON.parse(jsonStr, User.class);
         Long start = System.currentTimeMillis();
         //dDeserializerKit.createDeserializer(User.class);
-        List<User> users = new ArrayList<>();
         //User user = stringParser.parse(jsonStr, User.class, JSON.config);
 //        ParserConfig config = new ParserConfig();
 //        config.setAsmEnable(false);
@@ -46,7 +57,7 @@ public class BaseTest {
 
 
         for (int i1 = 0; i1 < i; i1++) {
-            users.add(JSON.parse(jsonStr, User.class));
+            JSON.toJSONString(user);
         }
         System.out.println(System.currentTimeMillis() - start);
 

@@ -4,7 +4,6 @@ import com.silentgo.json.deserializer.CollectionDeserializer;
 import com.silentgo.json.deserializer.Deserializer;
 import com.silentgo.json.deserializer.DeserializerKit;
 import com.silentgo.json.mapping.inter.JSONMapper;
-import com.silentgo.json.mapping.valreader.ReaderKit;
 import com.silentgo.json.model.JSONArray;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONObject;

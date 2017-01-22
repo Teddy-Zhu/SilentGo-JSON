@@ -36,7 +36,7 @@ public class JSONSkipKit {
                 }
             }
         }
-        new JSONReport().report(reader, "can not found object closure }");
+        new JSONReport().report(reader, "can not find object closure }");
     }
 
     public static void skipArray(Reader reader) {
@@ -62,7 +62,7 @@ public class JSONSkipKit {
                 }
             }
         }
-        new JSONReport().report(reader, "can not found array closure ]");
+        new JSONReport().report(reader, "can not find array closure ]");
     }
 
     public static void skipString(Reader reader) {
@@ -78,7 +78,7 @@ public class JSONSkipKit {
                 }
             }
         }
-        new JSONReport().report(reader, "string end can not found");
+        new JSONReport().report(reader, "string end can not find");
     }
 
     public static boolean skipNumber(Reader reader) {

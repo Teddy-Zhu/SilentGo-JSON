@@ -1,5 +1,6 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.annotation.JSONIgnore;
 import com.silentgo.json.deserializer.Deserializer;
 import com.silentgo.json.deserializer.JavaBeanDeserializer;
 import com.silentgo.utils.reflect.SGClass;
@@ -29,6 +30,10 @@ public class JavaBeanSerializer implements Serializer {
     public JavaBeanSerializer(SGClass sgClass) {
         fieldSerializer = new HashMap<>();
         sgClass.getFieldMap().forEach((name, sgField) -> {
+            JSONIgnore jsonIgnore = (JSONIgnore) sgField.getAnnotation(JSONIgnore.class);
+            if (jsonIgnore != null && !jsonIgnore.deserialize()) {
+                return;
+            }
             fieldSerializer.put(sgField, SerializerKit.createSerializer(sgField.getType(), sgField));
         });
     }

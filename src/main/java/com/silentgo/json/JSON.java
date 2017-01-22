@@ -34,17 +34,32 @@ public class JSON {
     public static final JSONEntity Null = new JSONNull();
 
 
+    public static <T> T parse(String text, Class<T> type, JSONConfig jsonConfig) {
+        return stringParser.parse(text, type, jsonConfig);
+    }
+
     public static <T> T parse(String text, Class<T> type) {
         return stringParser.parse(text, type, config);
+    }
+
+    public static JSONEntity parse(String text, JSONConfig jsonConfig) {
+        return stringParser.parse(text, jsonConfig);
     }
 
     public static JSONEntity parse(String text) {
         return stringParser.parse(text, config);
     }
 
+    public static <T> T parse(byte[] bytes, Class<T> type, JSONConfig jsonConfig) {
+        return byteParser.parse(bytes, type, jsonConfig);
+    }
 
     public static <T> T parse(byte[] bytes, Class<T> type) {
         return byteParser.parse(bytes, type, config);
+    }
+
+    public static JSONEntity parse(byte[] bytes, JSONConfig jsonConfig) {
+        return byteParser.parse(bytes, jsonConfig);
     }
 
     public static JSONEntity parse(byte[] bytes) {

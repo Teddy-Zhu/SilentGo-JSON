@@ -5,19 +5,24 @@
  
 # How to use
 
-simple eg: (temporary usage)
+simple eg:
 ```java
     // common parser
     String json = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
-    JSONEntity entity = new StringParserImpl().parse(json);
+    JSONEntity entity = JSON.parse(json)
 
 ```
 
 ```java
     // lazy parser
     String json = "[12,{\"axx\":[1.2,22,\"xxx\"]}]";
-    JSON.config.setLazy(true);
-    JSONEntity entity = new StringParserImpl().parse(json);
+    JSONEntity entity = JSON.parse(json,new JSONConfig(true));
+```
+
+```java
+    //parse complex object
+    String jsonStirng = "{.....}";
+    T object  = JSON.parse(jsonString, Class<T> tClass);
 ```
 
 license MIT

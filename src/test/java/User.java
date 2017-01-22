@@ -15,8 +15,8 @@ public class User {
 
     int id;
     String name;
-    List<String> tags; // <-- ["Music", "Football", "Running"]
-    Address address; // <-- { "street": "No.1 Road", "zipcode": "12345" }
+    List<String> tags;
+    Address address;
 
     public int getId() {
         return id;

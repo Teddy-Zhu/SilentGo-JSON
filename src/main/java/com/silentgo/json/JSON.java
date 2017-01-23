@@ -73,4 +73,30 @@ public class JSON {
     public static String toJSONString(Object object) {
         return SerializerKit.createSerializer(object.getClass()).serialize(object);
     }
+
+    public static <T> T[] parseArray(String text, Class<T> type) {
+        return (T[]) stringParser.parseCollection(text, type, config).toArray();
+    }
+
+    public static <T> T[] parseArray(byte[] bytes, Class<T> type) {
+        return (T[]) byteParser.parseCollection(bytes, type, config).toArray();
+    }
+
+
+    public static <T> T[] parseArray(String text, Class<T> type, JSONConfig jsonConfig) {
+        return (T[]) stringParser.parseCollection(text, type, jsonConfig).toArray();
+    }
+
+    public static <T> T[] parseArray(byte[] bytes, Class<T> type, JSONConfig jsonConfig) {
+        return (T[]) byteParser.parseCollection(bytes, type, jsonConfig).toArray();
+    }
+
+    public static <T> T parse(JSONEntity jsonEntity, Class<T> type) {
+        return (T) parse(jsonEntity, type, null);
+    }
+
+    public static <T> T parse(JSONEntity jsonEntity, Class<T> type, String name) {
+        return (T) mapper.map(jsonEntity, type, name);
+    }
+
 }

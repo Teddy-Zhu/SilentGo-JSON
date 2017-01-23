@@ -92,11 +92,27 @@ public class JSON {
     }
 
     public static <T> T parse(JSONEntity jsonEntity, Class<T> type) {
-        return (T) parse(jsonEntity, type, null);
+        return parse(jsonEntity, type, null);
     }
 
     public static <T> T parse(JSONEntity jsonEntity, Class<T> type, String name) {
         return (T) mapper.map(jsonEntity, type, name);
+    }
+
+    public static <T> T[] parseArray(JSONEntity jsonEntity, Class<T> type) {
+        return parseArray(jsonEntity, type, null);
+    }
+
+    public static <T> T[] parseArray(JSONEntity jsonEntity, Class<T> type, String name) {
+        return (T[]) (mapper.mapCollection(jsonEntity, type, name).toArray());
+    }
+
+    public static <T> Collection<T> parseCollection(JSONEntity jsonEntity, Class<T> type) {
+        return parseCollection(jsonEntity, type, null);
+    }
+
+    public static <T> Collection<T> parseCollection(JSONEntity jsonEntity, Class<T> type, String name) {
+        return mapper.mapCollection(jsonEntity, type, name);
     }
 
 }

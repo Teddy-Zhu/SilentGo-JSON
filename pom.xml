@@ -40,12 +40,6 @@
     <dependencies>
 
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.14</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.silentgo</groupId>
             <artifactId>utils</artifactId>
             <version>${utils.version}</version>

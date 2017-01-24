@@ -95,14 +95,37 @@ public class EscpaeKit {
             } else {
                 switch (c) {
                     case '"':
+                        stream.write('\\');
+                        stream.write('"');
+                        break;
                     case '\\':
+                        stream.write('\\');
+                        stream.write('\\');
+                        break;
                     case '/':
+                        stream.write('\\');
+                        stream.write('/');
+                        break;
                     case '\b':
+                        stream.write('\\');
+                        stream.write('b');
+                        break;
                     case '\f':
+                        stream.write('\\');
+                        stream.write('f');
+                        break;
                     case '\n':
+                        stream.write('\\');
+                        stream.write('n');
+                        break;
                     case '\r':
+                        stream.write('\\');
+                        stream.write('r');
+                        break;
                     case '\t':
                         stream.write('\\');
+                        stream.write('t');
+                        break;
                     default:
                         stream.write(c);
                 }

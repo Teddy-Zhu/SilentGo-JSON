@@ -23,6 +23,7 @@ public class BaseTest {
 
     public static void main(String[] args) throws IOException, NoSuchMethodException {
 
+        JSON.toJSONString(new HashMap<>());
 
         System.out.println(BaseTest.class.getMethod("aaa"));
         ;

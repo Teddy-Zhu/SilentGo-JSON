@@ -27,7 +27,10 @@ public class MapSerializer implements Serializer {
                         .append(child.serialize(entry.getValue()))
                         .appendInterval();
             }
-            return stringBuilder.deleteLastChar().toString();
+            if (((Map) object).size() > 0) {
+                stringBuilder.deleteLastChar();
+            }
+            return stringBuilder.appendObjectEnd().toString();
         } else {
             return SerializerBuilder.NULL;
         }

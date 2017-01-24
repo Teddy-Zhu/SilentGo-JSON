@@ -31,8 +31,10 @@ public class ArraySerializer implements Serializer {
             for (int i = 0, len = length - 1; i < len; i++) {
                 stringBuilder.append(child.serialize(Array.get(object, i))).appendInterval();
             }
-            stringBuilder.append(child.serialize(Array.get(object, length - 1))).appendArrayEnd();
-            return stringBuilder.toString();
+            if (length > 0) {
+                stringBuilder.append(child.serialize(Array.get(object, length - 1)));
+            }
+            return stringBuilder.appendArrayEnd().toString();
         } else {
             LOGGER.error("the object is not array ");
             return SerializerBuilder.NULL;

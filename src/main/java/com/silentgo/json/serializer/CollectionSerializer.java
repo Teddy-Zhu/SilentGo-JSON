@@ -44,7 +44,10 @@ public class CollectionSerializer implements Serializer {
             while (iterator.hasNext()) {
                 stringBuilder.append(child.serialize(iterator.next())).appendInterval();
             }
-            return stringBuilder.deleteLastChar().appendArrayEnd().toString();
+            if (((Collection) object).size() > 0) {
+                stringBuilder.deleteLastChar();
+            }
+            return stringBuilder.appendArrayEnd().toString();
         } else {
             LOGGER.error("the object is not collection ");
             return SerializerBuilder.NULL;

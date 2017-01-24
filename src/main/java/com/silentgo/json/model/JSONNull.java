@@ -1,5 +1,6 @@
 package com.silentgo.json.model;
 
+import com.silentgo.json.JSONGlobalConfig;
 import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.Reader;
 import com.silentgo.json.report.JSONReport;
@@ -43,6 +44,6 @@ public class JSONNull extends JSONEntity {
 
     @Override
     public String toString() {
-        return NullString;
+        return JSONGlobalConfig.replaceNullWithEmptyString ? "\"\"" : NullString;
     }
 }

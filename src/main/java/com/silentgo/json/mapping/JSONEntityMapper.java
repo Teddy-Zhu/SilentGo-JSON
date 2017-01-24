@@ -24,6 +24,7 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
 
     @Override
     public <T> Collection<T> mapCollection(JSONEntity json, Class<T> tClass, String name) {
+        if (json == null) return null;
         JSONEntity current = json;
         if (StringKit.isNotBlank(name)) {
             current = ReaderKit.getTarget(json, JSONObject.class, "json entity must be object");
@@ -33,12 +34,14 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
 
     @Override
     public <T> Collection<T> mapCollection(JSONEntity json, Class<T> tClass) {
+        if (json == null) return null;
         JSONArray jsonArray = ReaderKit.getTarget(json, JSONArray.class, "json must be array");
         return (Collection<T>) new CollectionDeserializer(DeserializerKit.createDeserializer(tClass)).getObject(jsonArray, null, null, null);
     }
 
     @Override
     public <T> T map(JSONEntity jsonLazy, Class<T> tClass, String name) {
+        if (jsonLazy == null) return null;
         JSONEntity current = jsonLazy;
         if (StringKit.isNotBlank(name)) {
             current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
@@ -50,6 +53,7 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
 
     @Override
     public <T> T map(JSONEntity jsonLazy, T entity, String name) {
+        if (jsonLazy == null) return null;
         JSONEntity current = jsonLazy;
         if (StringKit.isNotBlank(name)) {
             current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");

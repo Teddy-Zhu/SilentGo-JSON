@@ -1,5 +1,6 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.JSONGlobalConfig;
 import com.silentgo.utils.log.Log;
 import com.silentgo.utils.log.LogFactory;
 
@@ -40,11 +41,16 @@ public class CollectionSerializer implements Serializer {
             Iterator iterator = ((Collection) object).iterator();
 
             SerializerBuilder stringBuilder = new SerializerBuilder("[");
-
+            int i = 0;
             while (iterator.hasNext()) {
-                stringBuilder.append(child.serialize(iterator.next())).appendInterval();
+                Object obj = iterator.next();
+                if (obj == null && !JSONGlobalConfig.showNullField) {
+                    continue;
+                }
+                stringBuilder.append(child.serialize(obj)).appendInterval();
+                i++;
             }
-            if (((Collection) object).size() > 0) {
+            if (i > 0) {
                 stringBuilder.deleteLastChar();
             }
             return stringBuilder.appendArrayEnd().toString();

@@ -1,5 +1,6 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.JSONGlobalConfig;
 import com.silentgo.utils.log.Log;
 import com.silentgo.utils.log.LogFactory;
 
@@ -29,10 +30,19 @@ public class ArraySerializer implements Serializer {
             SerializerBuilder stringBuilder = new SerializerBuilder("[");
             int length = Array.getLength(object);
             for (int i = 0, len = length - 1; i < len; i++) {
-                stringBuilder.append(child.serialize(Array.get(object, i))).appendInterval();
+                Object obj = Array.get(object, i);
+                if (obj == null && !JSONGlobalConfig.showNullField) {
+                    continue;
+                }
+                stringBuilder.append(obj).appendInterval();
             }
             if (length > 0) {
-                stringBuilder.append(child.serialize(Array.get(object, length - 1)));
+                Object obj = Array.get(object, length - 1);
+                if (obj == null && !JSONGlobalConfig.showNullField) {
+
+                } else {
+                    stringBuilder.append(child.serialize(obj));
+                }
             }
             return stringBuilder.appendArrayEnd().toString();
         } else {

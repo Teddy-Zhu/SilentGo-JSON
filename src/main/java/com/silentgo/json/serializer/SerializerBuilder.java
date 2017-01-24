@@ -1,5 +1,13 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.exception.SerializerException;
+import com.silentgo.json.stream.JSONStream;
+import com.silentgo.utils.log.Log;
+import com.silentgo.utils.log.LogFactory;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
 /**
  * Project : json
  * Package : com.silentgo.json.serializer
@@ -9,6 +17,7 @@ package com.silentgo.json.serializer;
  *         Created by teddyzhu on 2017/1/20.
  */
 public class SerializerBuilder {
+    private static final Log LOGGER = LogFactory.get();
 
     public static final String NULL = "null";
 
@@ -116,4 +125,5 @@ public class SerializerBuilder {
     public int length() {
         return stringBuilder.length();
     }
+
 }

@@ -1,5 +1,6 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.JSONGlobalConfig;
 import com.silentgo.json.model.JSONEntity;
 
 /**
@@ -16,7 +17,7 @@ public class JSONEntitySerializer implements Serializer {
         if (object instanceof JSONEntity) {
             return ((JSONEntity) object).getString();
         } else {
-            return SerializerBuilder.NULL;
+            return JSONGlobalConfig.replaceNullWithEmptyString ? "\"\"" : SerializerBuilder.NULL;
         }
     }
 }

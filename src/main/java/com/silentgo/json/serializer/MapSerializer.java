@@ -1,5 +1,7 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.JSONGlobalConfig;
+
 import java.util.Map;
 
 /**
@@ -22,12 +24,17 @@ public class MapSerializer implements Serializer {
         if (object instanceof Map) {
             SerializerBuilder stringBuilder = new SerializerBuilder().appendObjectStart();
             Map<Object, Object> objectMap = (Map<Object, Object>) object;
+            int i = 0;
             for (Map.Entry<Object, Object> entry : objectMap.entrySet()) {
+                if (entry.getValue() == null && !JSONGlobalConfig.showNullField) {
+                    continue;
+                }
                 stringBuilder.append(SerializerKit.stringSerializer.serialize(entry.getKey())).appendObjectInterval()
                         .append(child.serialize(entry.getValue()))
                         .appendInterval();
+                i++;
             }
-            if (((Map) object).size() > 0) {
+            if (i > 0) {
                 stringBuilder.deleteLastChar();
             }
             return stringBuilder.appendObjectEnd().toString();

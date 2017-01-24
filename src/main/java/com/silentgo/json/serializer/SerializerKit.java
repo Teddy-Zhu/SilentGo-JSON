@@ -40,7 +40,6 @@ public class SerializerKit {
     public static final Serializer defaultArraySerilizer = new ArraySerializer(dynamicSerializer);
     public static final Serializer defaultMapSerializer = new MapSerializer(dynamicSerializer);
     public static final Serializer defaultCollectionSerializer = new CollectionSerializer(dynamicSerializer);
-    public static final ITypeConvertor defualtCovertor = new DefaultToStringConvertor();
     private static final Map<Class<?>, Serializer> serializerMap = new HashMap<>();
 
     static {
@@ -99,10 +98,12 @@ public class SerializerKit {
                 return baseTypeSerializer;
             } else {
                 //java bean or other java type
-                ITypeConvertor typeConvertor = ConvertKit.getTypeConvert(clz, String.class, defualtCovertor);
+                ITypeConvertor typeConvertor = ConvertKit.getTypeConvert(clz, String.class, null);
 
                 if (typeConvertor == null) {
-
+                    if (clz.getClassLoader() == null) {
+                        return stringSerializer;
+                    }
                 } else {
                     Serializer deserializer = new ConvertSerializer(typeConvertor);
                     serializerMap.put(clz, deserializer);

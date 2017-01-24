@@ -9,6 +9,7 @@ import com.silentgo.json.parser.ByteParser;
 import com.silentgo.json.parser.ByteParserImpl;
 import com.silentgo.json.parser.StringParser;
 import com.silentgo.json.parser.StringParserImpl;
+import com.silentgo.json.serializer.SerializerBuilder;
 import com.silentgo.json.serializer.SerializerKit;
 
 import java.util.Collection;
@@ -71,6 +72,7 @@ public class JSON {
     }
 
     public static String toJSONString(Object object) {
+        if (object == null) return SerializerBuilder.NULL;
         return SerializerKit.createSerializer(object.getClass()).serialize(object);
     }
 

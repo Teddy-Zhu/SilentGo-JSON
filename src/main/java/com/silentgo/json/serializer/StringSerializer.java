@@ -1,5 +1,7 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.stream.EscpaeKit;
+
 /**
  * Project : json
  * Package : com.silentgo.json.serializer
@@ -11,6 +13,6 @@ package com.silentgo.json.serializer;
 public class StringSerializer implements Serializer {
     @Override
     public String serialize(Object object) {
-        return "\"" + String.valueOf(object) + "\"";
+        return "\"" + EscpaeKit.escpaeString(String.valueOf(object)) + "\"";
     }
 }

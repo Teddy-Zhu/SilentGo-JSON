@@ -3,6 +3,7 @@ package com.silentgo.json.parser;
 import com.silentgo.json.JSON;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
+import com.silentgo.utils.StringKit;
 
 import java.util.Collection;
 
@@ -19,16 +20,19 @@ public class StringParserImpl implements StringParser {
 
     @Override
     public <T> T parse(String input, Class<T> tClass, JSONConfig jsonConfig) {
+        if (StringKit.isBlank(input)) return null;
         return (T) JSON.mapper.map(parse(input, jsonConfig), tClass, null);
     }
 
     @Override
     public JSONEntity parse(String input, JSONConfig jsonConfig) {
+        if (StringKit.isBlank(input)) return null;
         return JSONReaderKit.Entity.readValue(new StringReader(input), jsonConfig, null, 0);
     }
 
     @Override
     public <T> Collection<T> parseCollection(String input, Class<T> tClass, JSONConfig jsonConfig) {
+        if (StringKit.isBlank(input)) return null;
         return JSON.mapper.mapCollection(parse(input, jsonConfig), tClass);
     }
 

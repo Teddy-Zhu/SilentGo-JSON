@@ -1,5 +1,6 @@
 package com.silentgo.json.serializer;
 
+import com.silentgo.json.JSONGlobalConfig;
 import com.silentgo.json.annotation.JSONIgnore;
 import com.silentgo.json.deserializer.Deserializer;
 import com.silentgo.json.deserializer.JavaBeanDeserializer;
@@ -51,21 +52,29 @@ public class JavaBeanSerializer implements Serializer {
         if (object == null) return SerializerBuilder.NULL;
         SerializerBuilder serializerBuilder = new SerializerBuilder();
         serializerBuilder.appendObjectStart();
+        int i = 0;
         for (Map.Entry<SGField, Serializer> stringSerializerEntry : fieldSerializer.entrySet()) {
             SGField field = stringSerializerEntry.getKey();
             String name = field.getName();
-            serializerBuilder.appendStringSE()
-                    .append(name).appendStringSE().appendObjectInterval();
 
+            Object obj = null;
             if (field.getGetMethod() != null) {
-                serializerBuilder.append(stringSerializerEntry.getValue().serialize(field.invokeGetMethod(object)));
+                obj = field.invokeGetMethod(object);
             } else if (field.getField() != null) {
-                serializerBuilder.append(stringSerializerEntry.getValue().serialize(field.get(object)));
-            } else {
-                serializerBuilder.appendNull();
+                obj = field.get(object);
             }
-            serializerBuilder.appendInterval();
+
+            if (obj == null && !JSONGlobalConfig.showNullField) {
+                continue;
+            }
+            serializerBuilder.append(SerializerKit.stringSerializer.serialize(name))
+                    .appendObjectInterval().append(stringSerializerEntry.getValue().serialize(obj)).
+                    appendInterval();
+            i++;
         }
-        return serializerBuilder.deleteLastChar().appendObjectEnd().toString();
+        if (i > 0) {
+            serializerBuilder.deleteLastChar();
+        }
+        return serializerBuilder.appendObjectEnd().toString();
     }
 }

@@ -82,11 +82,12 @@ public class DeserializerKit {
             SGClass sgClass = ReflectKit.getSGClass(tClass);
             JavaBeanDeserializer deserializer1 = new JavaBeanDeserializer(sgClass);
 
+            typeDeserializer.put(tClass, deserializer1);
+
             sgClass.getFieldMap().forEach((k, v) -> {
                 Deserializer deserializer2 = v.getType().equals(tClass) ? deserializer1 : createDeserializer(v.getType(), v);
                 deserializer1.addDeserializer(k, deserializer2);
             });
-            typeDeserializer.put(tClass, deserializer1);
             return deserializer1;
 
         }

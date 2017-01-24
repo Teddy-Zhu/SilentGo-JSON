@@ -2,6 +2,7 @@ package com.silentgo.json.serializer;
 
 import com.silentgo.json.deserializer.CollectionDeserializer;
 import com.silentgo.json.deserializer.Deserializer;
+import com.silentgo.json.deserializer.JavaBeanDeserializer;
 import com.silentgo.json.deserializer.ValueGetterDeserializer;
 import com.silentgo.json.exception.DeserializerException;
 import com.silentgo.json.exception.SerializerException;
@@ -111,10 +112,10 @@ public class SerializerKit {
 
                 SGClass sgClass = ReflectKit.getSGClass(clz);
 
-                Serializer javaBeanSerializer = new JavaBeanSerializer(sgClass);
+                JavaBeanSerializer javaBeanSerializer = new JavaBeanSerializer();
 
                 serializerMap.put(clz, javaBeanSerializer);
-
+                javaBeanSerializer.init(sgClass);
                 return javaBeanSerializer;
             }
         } else {

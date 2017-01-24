@@ -27,8 +27,7 @@ public class JavaBeanSerializer implements Serializer {
         fieldSerializer = new HashMap<>();
     }
 
-    public JavaBeanSerializer(SGClass sgClass) {
-        fieldSerializer = new HashMap<>();
+    public void init(SGClass sgClass) {
         sgClass.getFieldMap().forEach((name, sgField) -> {
             if (sgField.getType().equals(sgClass.getClz())) {
                 fieldSerializer.put(sgField, this);
@@ -40,6 +39,11 @@ public class JavaBeanSerializer implements Serializer {
             }
             fieldSerializer.put(sgField, SerializerKit.createSerializer(sgField.getType(), sgField));
         });
+    }
+
+    public JavaBeanSerializer(SGClass sgClass) {
+        fieldSerializer = new HashMap<>();
+        init(sgClass);
     }
 
     @Override

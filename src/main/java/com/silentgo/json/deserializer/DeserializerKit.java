@@ -83,7 +83,7 @@ public class DeserializerKit {
             JavaBeanDeserializer deserializer1 = new JavaBeanDeserializer(sgClass);
 
             sgClass.getFieldMap().forEach((k, v) -> {
-                Deserializer deserializer2 = createDeserializer(v.getType(), v);
+                Deserializer deserializer2 = v.getType().equals(tClass) ? deserializer1 : createDeserializer(v.getType(), v);
                 deserializer1.addDeserializer(k, deserializer2);
             });
             typeDeserializer.put(tClass, deserializer1);

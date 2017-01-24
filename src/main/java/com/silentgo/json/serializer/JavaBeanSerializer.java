@@ -30,6 +30,10 @@ public class JavaBeanSerializer implements Serializer {
     public JavaBeanSerializer(SGClass sgClass) {
         fieldSerializer = new HashMap<>();
         sgClass.getFieldMap().forEach((name, sgField) -> {
+            if (sgField.getType().equals(sgClass.getClz())) {
+                fieldSerializer.put(sgField, this);
+                return;
+            }
             JSONIgnore jsonIgnore = (JSONIgnore) sgField.getAnnotation(JSONIgnore.class);
             if (jsonIgnore != null && !jsonIgnore.deserialize()) {
                 return;

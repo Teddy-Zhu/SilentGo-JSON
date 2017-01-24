@@ -22,6 +22,8 @@ public class EscpaeKit {
             '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'a', 'b', 'c', 'd', 'e', 'f'};
 
+    private static final ThreadLocal<JSONStream> streamThreadLocal = ThreadLocal.withInitial(JSONStream::new);
+
     public static Object escpaeChar(char a) {
         switch (a) {
             case '"':
@@ -39,7 +41,8 @@ public class EscpaeKit {
     }
 
     public static String escpaeString(String val) {
-        JSONStream stream = new JSONStream();
+        JSONStream stream = streamThreadLocal.get();
+        stream.clear();
         int i = 0;
         int valLen = val.length();
         for (; i < valLen; i++) {
@@ -92,37 +95,14 @@ public class EscpaeKit {
             } else {
                 switch (c) {
                     case '"':
-                        stream.write('\\');
-                        stream.write('"');
-                        break;
                     case '\\':
-                        stream.write('\\');
-                        stream.write('\\');
-                        break;
                     case '/':
-                        stream.write('\\');
-                        stream.write('/');
-                        break;
                     case '\b':
-                        stream.write('\\');
-                        stream.write('b');
-                        break;
                     case '\f':
-                        stream.write('\\');
-                        stream.write('f');
-                        break;
                     case '\n':
-                        stream.write('\\');
-                        stream.write('n');
-                        break;
                     case '\r':
-                        stream.write('\\');
-                        stream.write('r');
-                        break;
                     case '\t':
                         stream.write('\\');
-                        stream.write('t');
-                        break;
                     default:
                         stream.write(c);
                 }

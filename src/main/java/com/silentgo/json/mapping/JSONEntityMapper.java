@@ -27,7 +27,8 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
         if (json == null) return null;
         JSONEntity current = json;
         if (StringKit.isNotBlank(name)) {
-            current = ReaderKit.getTarget(json, JSONObject.class, "json entity must be object");
+            JSONObject jsonObject = ReaderKit.getTarget(json, JSONObject.class, "json entity must be object");
+            current = jsonObject.get(name);
         }
         return mapCollection(current, tClass);
     }
@@ -44,7 +45,8 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
         if (jsonLazy == null) return null;
         JSONEntity current = jsonLazy;
         if (StringKit.isNotBlank(name)) {
-            current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
+            JSONObject jsonObject = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
+            current = jsonObject.get(name);
         }
         Deserializer deserializer = DeserializerKit.createDeserializer(tClass);
 
@@ -56,7 +58,8 @@ public class JSONEntityMapper implements JSONMapper<JSONEntity> {
         if (jsonLazy == null) return null;
         JSONEntity current = jsonLazy;
         if (StringKit.isNotBlank(name)) {
-            current = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
+            JSONObject jsonObject = ReaderKit.getTarget(jsonLazy, JSONObject.class, "json entity must be object");
+            current = jsonObject.get(name);
         }
         Deserializer deserializer = DeserializerKit.createDeserializer(entity.getClass());
 

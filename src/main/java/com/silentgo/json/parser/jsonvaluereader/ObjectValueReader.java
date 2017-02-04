@@ -33,7 +33,7 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
         JSONObject jsonObject = outJsonObject == null ? new JSONObject() : outJsonObject;
         boolean isFirst = true;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':
@@ -47,11 +47,9 @@ public class ObjectValueReader implements JSONValueReader<JSONObject> {
                 }
                 case Key.STRING_SPLIT: {
                     isFirst = false;
-                    int pos = reader.pos + 1;
-                    JSONSkipKit.skipString(reader);
-                    String name = reader.peekRange(pos, reader.pos - pos);
+                    String name = JSONReaderKit.readString(reader);
 
-                    char key = JSONReaderKit.nextWord(reader);
+                    int key = JSONReaderKit.nextWord(reader);
                     if (Key.VALUE_COL != key)
                         new JSONReport().report(reader, "can not find value");
                     JSONEntity jsonEntity = JSONReaderKit.Entity.readValue(reader, jsonConfig, null, depth);

@@ -22,7 +22,7 @@ public class CommonValueReader implements JSONValueReader<JSONEntity> {
 
         int nextDepth = depth + 1;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':

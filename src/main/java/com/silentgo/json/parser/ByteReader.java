@@ -20,8 +20,8 @@ public class ByteReader extends Reader {
     }
 
     @Override
-    public char next() {
-        return (char) data[++pos];
+    public byte next() {
+        return data[++pos];
     }
 
     @Override
@@ -30,20 +30,20 @@ public class ByteReader extends Reader {
     }
 
     @Override
-    public char peek() {
-        return (char) data[pos];
+    public byte peek() {
+        return data[pos];
     }
 
     @Override
-    public char peek(int i) {
+    public byte peek(int i) {
         if (i > end) {
             return NULL;
         }
-        return (char) data[i];
+        return data[i];
     }
 
     @Override
-    public char peekNext() {
+    public byte peekNext() {
         return peek(pos + 1);
     }
 

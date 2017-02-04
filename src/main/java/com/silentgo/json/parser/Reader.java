@@ -12,15 +12,15 @@ public abstract class Reader {
     public int pos;
     public int end;
 
-    public abstract char next();
+    public abstract byte next();
 
     public abstract boolean hasNext();
 
-    public abstract char peek();
+    public abstract byte peek();
 
-    public abstract char peek(int position);
+    public abstract byte peek(int position);
 
-    public abstract char peekNext();
+    public abstract byte peekNext();
 
     public abstract String peekRange(int start, int length);
 

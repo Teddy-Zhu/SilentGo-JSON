@@ -119,6 +119,8 @@ public class JavaBeanDeserializer implements Deserializer {
     public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target) {
         JSONObject jsonObject = ReaderKit.getTarget(entity, JSONObject.class, "json can not be transformed to object");
 
+        if(jsonObject == null) return null;
+
         if (target == null && sgConstructor.isDefault()) {
             if (!sgConstructor.getConstructor().isAccessible())
                 sgConstructor.getConstructor().setAccessible(true);

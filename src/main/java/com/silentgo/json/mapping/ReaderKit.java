@@ -16,6 +16,7 @@ import com.silentgo.json.model.JSONLazy;
 public class ReaderKit {
 
     public static <T extends JSONEntity> T getTarget(JSONEntity jsonEntity, Class<T> target, String msg) {
+        if (jsonEntity == null) return null;
         T t;
         if (jsonEntity instanceof JSONLazy && target.equals(((JSONLazy) jsonEntity).getType())) {
             t = (T) jsonEntity.get(JSON.oneDepthConfig);

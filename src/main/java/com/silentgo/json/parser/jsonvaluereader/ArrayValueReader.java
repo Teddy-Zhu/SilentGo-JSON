@@ -35,7 +35,7 @@ public class ArrayValueReader implements JSONValueReader<JSONArray> {
         JSONArray jsonArray = outJsonObject == null ? new JSONArray() : outJsonObject;
         boolean isFirst = true;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':

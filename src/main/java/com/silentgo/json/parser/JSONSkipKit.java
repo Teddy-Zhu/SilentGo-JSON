@@ -16,7 +16,7 @@ public class JSONSkipKit {
     public static void skipObject(Reader reader) {
         int i = 1;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 default:
                     continue;
@@ -42,7 +42,7 @@ public class JSONSkipKit {
     public static void skipArray(Reader reader) {
         int i = 1;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 default:
                     continue;
@@ -67,7 +67,7 @@ public class JSONSkipKit {
 
     public static void skipString(Reader reader) {
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 default:
                     continue;
@@ -84,7 +84,7 @@ public class JSONSkipKit {
     public static boolean skipNumber(Reader reader) {
         boolean isDecimal = false;
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 case Key.NUMBER_INTERVAL: {
                     isDecimal = true;
@@ -123,7 +123,7 @@ public class JSONSkipKit {
         int i = 1;
         if (ignoreCaseSensitive) {
             while (reader.hasNext() && i < str.length()) {
-                char b = reader.next();
+                int b = reader.next();
                 if (Character.toLowerCase(b) != str.charAt(i)) {
                     new JSONReport().report(reader, "unknown string");
                 }
@@ -131,7 +131,7 @@ public class JSONSkipKit {
             }
         } else {
             while (reader.hasNext() && i < str.length()) {
-                char b = reader.next();
+                int b = reader.next();
                 if (b != str.charAt(i)) {
                     new JSONReport().report(reader, "unknown string");
                 }
@@ -143,7 +143,7 @@ public class JSONSkipKit {
 
     public static void skipBlank(Reader reader) {
         while (reader.hasNext()) {
-            char b = reader.next();
+            int b = reader.next();
             switch (b) {
                 case ' ':
                 case '\t':

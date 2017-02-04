@@ -12,6 +12,13 @@ import com.silentgo.json.parser.Reader;
  *         Created by teddyzhu on 2017/1/4.
  */
 public class JSONReport implements Reporter {
+    private static class JSONReportHolder {
+        static JSONReport instance = new JSONReport();
+    }
+
+    public static JSONReport me() {
+        return JSONReportHolder.instance;
+    }
 
     @Override
     public void report(Reader reader, String msg) {

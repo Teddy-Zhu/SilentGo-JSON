@@ -126,6 +126,7 @@ public class EscpaeKit {
                         stream.write('\\');
                         stream.write('t');
                         break;
+                    case 'u':
                     default:
                         stream.write(c);
                 }

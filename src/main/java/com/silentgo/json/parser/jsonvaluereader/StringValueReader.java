@@ -4,7 +4,6 @@ import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONString;
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
 import com.silentgo.json.parser.Reader;
@@ -30,9 +29,7 @@ public class StringValueReader implements JSONValueReader<JSONString> {
         if (jsonConfig.isHasSkipped()) {
             value = JSONReaderKit.getString(reader);
         } else {
-            int i = reader.pos + 1;
-            JSONSkipKit.skipString(reader);
-            value = reader.peekRange(i, reader.pos - i);
+            value = JSONReaderKit.readString(reader);
         }
 
         return new JSONString(value);

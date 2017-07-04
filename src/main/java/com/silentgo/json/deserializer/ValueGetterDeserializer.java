@@ -29,6 +29,10 @@ public class ValueGetterDeserializer implements Deserializer {
 
     @Override
     public Object getObject(JSONEntity entity, SGField sgField, Object key, Object target) {
-        return valueGetter.getObject(entity, sgField);
+        try {
+            return valueGetter.getObject(entity, sgField);
+        } catch (Exception e) {
+            return null;
+        }
     }
 }

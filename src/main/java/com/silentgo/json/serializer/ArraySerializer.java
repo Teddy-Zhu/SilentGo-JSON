@@ -34,7 +34,7 @@ public class ArraySerializer implements Serializer {
                 if (obj == null && !JSONGlobalConfig.showNullField) {
                     continue;
                 }
-                stringBuilder.append(obj).appendInterval();
+                stringBuilder.append(child.serialize(obj)).appendInterval();
             }
             if (length > 0) {
                 Object obj = Array.get(object, length - 1);

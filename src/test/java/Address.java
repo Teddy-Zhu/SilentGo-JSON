@@ -10,6 +10,16 @@ public class Address {
     String street;
     String zipcode;
 
+    boolean aaa;
+
+    public boolean isAaa() {
+        return aaa;
+    }
+
+    public void setAaa(boolean aaa) {
+        this.aaa = aaa;
+    }
+
     public String getStreet() {
         return street;
     }

@@ -23,7 +23,7 @@ public class StringValueReader implements JSONValueReader<JSONString> {
         if (jsonConfig.isLazy() || forceLazy) {
             int pos = reader.pos + 1;
             JSONSkipKit.skipString(reader);
-            return new JSONLazy(reader.expand(pos, reader.pos), JSONString.class);
+            return new JSONLazy(reader.expand(pos, reader.pos + 1), JSONString.class);
         }
         String value;
         if (jsonConfig.isHasSkipped()) {

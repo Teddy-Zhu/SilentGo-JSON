@@ -8,14 +8,63 @@ package com.silentgo.json.parser;
  *         <p>
  *         Created by teddyzhu on 2017/1/12.
  */
-public class StringReader extends ByteReader {
+public class StringReader extends Reader {
+
+    String text;
 
     public StringReader(String input) {
-        super(input.getBytes(), -1, input.getBytes().length);
+        this.text = input;
+        this.pos = -1;
+        this.end = text.length();
     }
 
     public StringReader(String input, int pos, int end) {
-        super(input.getBytes(), pos, end);
+        this.text = input;
+        this.pos = pos;
+        this.end = end;
+    }
+
+    @Override
+    public char prev() {
+        return text.charAt(--pos);
+    }
+
+    @Override
+    public char next() {
+        return text.charAt(++pos);
+    }
+
+    @Override
+    public boolean hasNext() {
+        return pos < end;
+    }
+
+    @Override
+    public char peek() {
+        return text.charAt(pos);
+    }
+
+    @Override
+    public char peek(int i) {
+        if (i > end) {
+            return NULL;
+        }
+        return text.charAt(i);
+    }
+
+    @Override
+    public char peekNext() {
+        return peek(pos + 1);
+    }
+
+    @Override
+    public String peekRange(int start, int length) {
+        return text.substring(start, start + length);
+    }
+
+    @Override
+    public Reader expand(int pos, int end) {
+        return new StringReader(text, pos, end);
     }
 
 }

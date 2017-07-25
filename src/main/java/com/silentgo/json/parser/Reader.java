@@ -9,18 +9,22 @@ package com.silentgo.json.parser;
  *         Created by teddyzhu on 2017/1/4.
  */
 public abstract class Reader {
+    public static final char NULL = 0;
+
     public int pos;
     public int end;
 
-    public abstract byte next();
+    public abstract char prev();
+
+    public abstract char next();
 
     public abstract boolean hasNext();
 
-    public abstract byte peek();
+    public abstract char peek();
 
-    public abstract byte peek(int position);
+    public abstract char peek(int position);
 
-    public abstract byte peekNext();
+    public abstract char peekNext();
 
     public abstract String peekRange(int start, int length);
 

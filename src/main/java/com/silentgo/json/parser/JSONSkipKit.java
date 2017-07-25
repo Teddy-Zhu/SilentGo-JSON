@@ -109,6 +109,7 @@ public class JSONSkipKit {
                 case Key.OBJECT_SPLIT:
                 case Key.OBJECT_END:
                 case Key.ARRAY_END: {
+                    reader.prev();
                     return isDecimal;
                 }
                 default: {

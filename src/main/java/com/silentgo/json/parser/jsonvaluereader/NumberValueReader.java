@@ -3,7 +3,6 @@ package com.silentgo.json.parser.jsonvaluereader;
 import com.silentgo.json.common.Key;
 import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.*;
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
 import com.silentgo.json.parser.Reader;
@@ -24,7 +23,7 @@ public class NumberValueReader implements JSONValueReader<JSONNumber> {
         if (jsonConfig.isLazy() || forceLazy) {
             int pos = reader.pos;
             boolean isDecimal = JSONSkipKit.skipNumber(reader);
-            return new JSONLazy(reader.expand(pos, reader.pos), isDecimal ? JSONDouble.class : JSONLong.class);
+            return new JSONLazy(reader.expand(pos, reader.pos + 1), isDecimal ? JSONDouble.class : JSONLong.class);
         }
         String value;
         boolean isDecimal;
@@ -34,7 +33,7 @@ public class NumberValueReader implements JSONValueReader<JSONNumber> {
         } else {
             int i = reader.pos;
             isDecimal = JSONSkipKit.skipNumber(reader);
-            value = reader.peekRange(i, reader.pos - i);
+            value = reader.peekRange(i, reader.pos - i + 1);
         }
 
         if (isDecimal) {

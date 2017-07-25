@@ -4,7 +4,6 @@ import com.silentgo.json.configuration.JSONConfig;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
 import com.silentgo.json.model.JSONNull;
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
 import com.silentgo.json.parser.Reader;
@@ -32,8 +31,8 @@ public class NullValueReader implements JSONValueReader<JSONNull> {
             value = JSONReaderKit.getString(reader);
         } else {
             int i = reader.pos;
-            JSONSkipKit.skipBlank(reader);
-            value = reader.peekRange(i, reader.pos - i);
+            JSONSkipKit.skipStringArg(reader, "null", true);
+            value = reader.peekRange(i, reader.pos - i + 1);
         }
 
         return new JSONNull(value);

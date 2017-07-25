@@ -4,7 +4,6 @@ import com.silentgo.json.model.*;
 import com.silentgo.json.parser.jsonvaluereader.*;
 import com.silentgo.json.report.JSONReport;
 import com.silentgo.json.stream.JSONCharStream;
-import com.silentgo.json.stream.JSONStream;
 import com.silentgo.utils.log.LogFactory;
 
 import java.io.IOException;
@@ -91,7 +90,7 @@ public class JSONReaderKit {
     }
 
     public static String getString(Reader reader) {
-        return reader.peekRange(reader.pos, reader.end - reader.pos);
+        return reader.peekRange(reader.pos, reader.end - reader.pos + 1);
     }
 
     //from jsonstream

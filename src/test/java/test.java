@@ -1,5 +1,6 @@
-import com.silentgo.json.parser.StringParserImpl;
-import com.silentgo.json.model.JSONEntity;
+import com.silentgo.json.JSON;
+
+import java.util.List;
 
 /**
  * Project : SilentGo
@@ -11,8 +12,17 @@ import com.silentgo.json.model.JSONEntity;
  */
 public class test {
 
-    public static void main(String[] args) {
-    //    JSONEntity a = new StringParserImpl().parse("{\"sx\\\"ss\":\"sss\"}");
-       // System.out.println(a);
+
+    public void aaaa(List<Long> aaa, String[] aaaa) {
+
+    }
+
+    public static void main(String[] args) throws NoSuchMethodException {
+
+        String a = "{\"zipcode\":\"adadsa\",\"street\":\"在奇偶给你\",\"aaa\":false}";
+
+        Address ac = JSON.parse(a, Address.class);
+
+        System.out.println(JSON.toJSONString(ac));
     }
 }

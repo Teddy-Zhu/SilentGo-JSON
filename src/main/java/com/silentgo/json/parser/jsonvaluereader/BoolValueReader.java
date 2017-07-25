@@ -5,7 +5,6 @@ import com.silentgo.json.configuration.JSONConfigExtra;
 import com.silentgo.json.model.JSONBool;
 import com.silentgo.json.model.JSONEntity;
 import com.silentgo.json.model.JSONLazy;
-import com.silentgo.json.parser.ByteReader;
 import com.silentgo.json.parser.JSONReaderKit;
 import com.silentgo.json.parser.JSONSkipKit;
 import com.silentgo.json.parser.Reader;
@@ -26,7 +25,7 @@ public class BoolValueReader implements JSONValueReader<JSONBool> {
         if (jsonConfig.isLazy() || forceLazy) {
             int pos = reader.pos;
             JSONSkipKit.skipStringArg(reader, val, true);
-            return new JSONLazy(reader.expand(pos, reader.pos), JSONBool.class);
+            return new JSONLazy(reader.expand(pos, reader.pos + 1), JSONBool.class);
         }
 
         String value;

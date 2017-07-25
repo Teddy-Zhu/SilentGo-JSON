@@ -10,7 +10,6 @@ package com.silentgo.json.parser;
  */
 public class ByteReader extends Reader {
 
-    public static final char NULL = 0;
     public byte[] data;
 
     public ByteReader(byte[] data, int pos, int end) {
@@ -20,8 +19,13 @@ public class ByteReader extends Reader {
     }
 
     @Override
-    public byte next() {
-        return data[++pos];
+    public char prev() {
+        return (char) data[--pos];
+    }
+
+    @Override
+    public char next() {
+        return (char) data[++pos];
     }
 
     @Override
@@ -30,20 +34,20 @@ public class ByteReader extends Reader {
     }
 
     @Override
-    public byte peek() {
-        return data[pos];
+    public char peek() {
+        return (char) data[pos];
     }
 
     @Override
-    public byte peek(int i) {
+    public char peek(int i) {
         if (i > end) {
             return NULL;
         }
-        return data[i];
+        return (char) data[i];
     }
 
     @Override
-    public byte peekNext() {
+    public char peekNext() {
         return peek(pos + 1);
     }
 
